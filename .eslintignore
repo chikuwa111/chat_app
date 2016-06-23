@@ -1,0 +1,7 @@
+app/assets/javascripts/src/vendor
+app/assets/javascripts/src/components/exercises/outputs/jquery.js
+app/assets/javascripts/src/lib/judges/command.js
+app/assets/javascripts/src/lib/judges/html_responsive.js
+app/assets/javascripts/src/lib/judges/jquery.js
+app/assets/javascripts/src/lib/judges/php.js
+app/assets/javascripts/src/lib/judges/rails.js
