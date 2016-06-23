@@ -10,7 +10,7 @@ git clone -b master https://github.com/water23/flux_tutorial.git
 ```
 gitリポジトリのURLを変更  
 ```
-git remote set-url origin https://github.com/githubアカウント名/chat_app.git
+git remote set-url origin https://github.com/アカウント名/chat_app.git
 ```
 
 * アプリケーションのセットアップ  
