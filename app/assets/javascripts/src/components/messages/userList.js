@@ -1,7 +1,10 @@
 import React from 'react'
+import _ from 'lodash'
 import classNames from 'classnames'
 import Utils from '../../utils'
+import MessagesStore from '../../stores/messages'
 import UserStore from '../../stores/user'
+import MessagesAction from '../../actions/messages'
 
 class UserList extends React.Component {
 
@@ -9,65 +12,37 @@ class UserList extends React.Component {
     super(props)
     this.state = this.initialState
   }
-
   get initialState() {
+    return this.getStateFromStore()
+  }
+  getStateFromStore() {
+    const allMessages = MessagesStore.getAllChats()
+
+    const messageList = []
+    _.each(allMessages, (message) => {
+      const messagesLength = message.messages.length
+      messageList.push({
+        lastMessage: message.messages[messagesLength - 1],
+        lastAccess: message.lastAccess,
+        user: message.user,
+      })
+    })
     return {
-      openChatID: 2,
-      messageList: [
-        {
-          lastMessage: {
-            contents: 'Hey, what\'s up?',
-            from: 1,
-            timestamp: 1424469794000,
-          },
-          lastAccess: {
-            recipient: 1424469794050,
-            currentUser: 1424469794080,
-          },
-          user: {
-            profilePicture: 'https://avatars0.githubusercontent.com/u/7922109?v=3&s=460',
-            id: 2,
-            name: 'Ryan Clark',
-            status: 'online',
-          },
-        },
-        {
-          lastMessage: {
-            contents: 'Want a game of ping pong?',
-            from: 3,
-            timestamp: 1424352522000,
-          },
-          lastAccess: {
-            recipient: 1424352522000,
-            currentUser: 1424352522080,
-          },
-          user: {
-            read: true,
-            profilePicture: 'https://avatars3.githubusercontent.com/u/2955483?v=3&s=460',
-            name: 'Jilles Soeters',
-            id: 3,
-            status: 'online',
-          },
-        },
-        {
-          lastMessage: {
-            contents: 'Please follow me on twitter I\'ll pay you',
-            timestamp: 1424423579000,
-            from: 4,
-          },
-          lastAccess: {
-            recipient: 1424423579000,
-            currentUser: 1424423574000,
-          },
-          user: {
-            name: 'Todd Motto',
-            id: 4,
-            profilePicture: 'https://avatars1.githubusercontent.com/u/1655968?v=3&s=460',
-            status: 'online',
-          },
-        },
-      ],
+      openChatID: MessagesStore.getOpenChatUserID(),
+      messageList: messageList,
     }
+  }
+  componentWillMount() {
+    MessagesStore.onChange(this.onStoreChange.bind(this))
+  }
+  componentWillUnmount() {
+    MessagesStore.offChange(this.onStoreChange.bind(this))
+  }
+  onStoreChange() {
+    this.setState(this.getStateFromStore())
+  }
+  changeOpenChat(id) {
+    MessagesAction.changeOpenChat(id)
   }
   render() {
     this.state.messageList.sort((a, b) => {
@@ -109,6 +84,7 @@ class UserList extends React.Component {
 
       return (
         <li
+          onClick={ this.changeOpenChat.bind(this, message.user.id) }
           className={ itemClasses }
           key={ message.user.id }
         >

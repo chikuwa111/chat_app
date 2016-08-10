@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classNames'
+import MessagesStore from '../../stores/messages'
 import ReplyBox from '../../components/messages/replyBox'
 import UserStore from '../../stores/user'
 import Utils from '../../utils'
@@ -11,30 +12,19 @@ class MessagesBox extends React.Component {
     this.state = this.initialState
   }
   get initialState() {
-    return {
-      user: {
-        profilePicture: 'https://avatars0.githubusercontent.com/u/7922109?v=3&s=460',
-        id: 2,
-        name: 'Ryan Clark',
-        status: 'online',
-      },
-      lastAccess: {
-        recipient: 1424469794050,
-        currentUser: 1424469794080,
-      },
-      messages: [
-        {
-          contents: 'Hey!',
-          from: 2,
-          timestamp: 1424469793023,
-        },
-        {
-          contents: 'Hey, what\'s up?',
-          from: 1,
-          timestamp: 1424469794000,
-        },
-      ],
-    }
+    return this.getStateFromStore()
+  }
+  getStateFromStore() {
+    return MessagesStore.getChatByUserID(MessagesStore.getOpenChatUserID())
+  }
+  componentWillMount() {
+    MessagesStore.onChange(this.onStoreChange.bind(this))
+  }
+  componentWillUnmount() {
+    MessagesStore.offChange(this.onStoreChange.bind(this))
+  }
+  onStoreChange() {
+    this.setState(this.getStateFromStore())
   }
   render() {
     const messagesLength = this.state.messages.length
