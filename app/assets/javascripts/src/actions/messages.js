@@ -1,4 +1,5 @@
 import Dispatcher from '../dispatcher'
+import request from 'superagent'
 
 export default {
   changeOpenChat(newUserID) {
@@ -13,6 +14,24 @@ export default {
       userID: userID,
       message: message,
       timestamp: +new Date(),
+    })
+  },
+  getMessageFromDB() {
+    return new Promise((resolve, reject) => {
+      request
+      .get('/api/messages')
+      .end((error, res) => {
+        if (!error && res.status === 200) {
+          const json = JSON.parse(res.text)
+          resolve(json)
+          Dispatcher.handleServerAction({
+            type: 'getMessageFromDB',
+            json: json,
+          })
+        } else {
+          reject(res)
+        }
+      })
     })
   },
 }
