@@ -34,4 +34,22 @@ export default {
       })
     })
   },
+  sendMessageToDB(message) {
+    return new Promise((resolve, reject) => {
+      request
+      .post('/api/messages.json')
+      .send({contents: message})
+      .end((error, res) => {
+        if (!error && res.ok) {
+          console.log('success')
+          Dispatcher.handleViewAction({
+            type: 'sendMessageToDB',
+            message: message,
+          })
+        } else {
+          console.error(error)
+        }
+      })
+    })
+  },
 }

@@ -13,12 +13,14 @@ class MessagesBox extends React.Component {
     this.state = this.initialState
   }
   get initialState() {
-    MessagesAction.getMessageFromDB()
     return this.getStateFromStore()
   }
   getStateFromStore() {
     // return MessagesStore.getChatByUserID(MessagesStore.getOpenChatUserID())
     return {messages: MessagesStore.getAllChats()}
+  }
+  componentDidMount() {
+    MessagesAction.getMessageFromDB()
   }
   componentWillMount() {
     MessagesStore.onChange(this.onStoreChange.bind(this))

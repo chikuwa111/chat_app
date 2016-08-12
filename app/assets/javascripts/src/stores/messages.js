@@ -113,6 +113,14 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
       messages = json
       MessagesStore.emitChange()
     },
+    sendMessageToDB(payload) {
+      const message = payload.action.message
+      messages.push({
+        contents: message,
+      })
+      console.log(messages)
+      MessagesStore.emitChange()
+    },
   }
 
   actions[payload.action.type] && actions[payload.action.type](payload)
