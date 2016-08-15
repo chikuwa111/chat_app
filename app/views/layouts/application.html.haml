@@ -8,4 +8,7 @@
     = javascript_include_tag '/assets/javascripts/boot.js'
     = csrf_meta_tags
   %body
-    = yield
+    .container
+      - flash.each do |message_type, message|
+        .alert.alert-notice #{message}
+      = yield
