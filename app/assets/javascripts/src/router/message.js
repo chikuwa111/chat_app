@@ -4,7 +4,7 @@ import App from '../app'
 
 export default class CardRouter extends BaseRouter {
   register() {
-    this.route('/', this.decorateApp)
+    this.route('/messages', this.decorateApp)
   }
 
   decorateApp(ctx, next) {

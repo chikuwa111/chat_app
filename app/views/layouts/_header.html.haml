@@ -1,10 +1,10 @@
 %header.navbar.navbar-fixed-top.navbar-inverse
   .container
-    = link_to "Chat_app", root_path, id: "logo", data: {no_turbolink: true}
+    = link_to "Chat_app", root_path, id: "logo"
     %nav
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
-          %li= link_to "Messages", root_path, data: {no_turbolink: true}
+          %li= link_to "Messages", messages_path, data: {no_turbolink: true}
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               Account
