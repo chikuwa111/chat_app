@@ -1,11 +1,18 @@
 !!! 5
 %html
   %head
-    %title flux_tutorial
+    %title chat_app
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     %link{ href: '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', rel: 'stylesheet' }/
     = javascript_include_tag 'application'
     = javascript_include_tag '/assets/javascripts/boot.js'
     = csrf_meta_tags
   %body
-    = yield
+    = render 'layouts/header'
+    .container
+      - flash.each do |message_type, message|
+        - if message_type == "notice"
+          %div{:class => "alert alert-success"}= message
+        - elsif message_type == "alert"
+          %div{:class => "alert alert-warning"}= message
+      = yield
