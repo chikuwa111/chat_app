@@ -8,6 +8,7 @@
     = javascript_include_tag '/assets/javascripts/boot.js'
     = csrf_meta_tags
   %body
+    = render 'layouts/header'
     .container
       - flash.each do |message_type, message|
         - if message_type == "notice"

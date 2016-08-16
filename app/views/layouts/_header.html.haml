@@ -1,0 +1,12 @@
+%header.navbar.navbar-fixed-top.navbar-inverse
+  .container
+    = link_to "Chat_app", root_path, id: "logo", data: {no_turbolink: true}
+    %nav
+      %ul.nav.navbar-nav.navbar-right
+        %li= link_to "Messages", root_path, data: {no_turbolink: true}
+        - if user_signed_in?
+          %li.navbar-link= link_to "Settings", edit_user_registration_path
+          %li.navbar-link= link_to "Logout", destroy_user_session_path, method: :delete
+        - else
+          %li.navbar-link= link_to "Sign up", new_user_registration_path
+          %li.navbar-link= link_to "Login", new_user_session_path
