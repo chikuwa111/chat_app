@@ -2,7 +2,7 @@ module Api
   class UsersController < ApplicationController
 
     def index
-      @users = User.all
+      @users = User.where.not(email: current_user.email)
       render json: @users
     end
 
