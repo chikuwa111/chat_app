@@ -5,6 +5,7 @@
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li= link_to "Messages", messages_path, data: {no_turbolink: true}
+          %li= link_to "Find", users_find_path, data: {no_turbolink: true}
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               Account
