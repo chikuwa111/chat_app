@@ -1,9 +1,9 @@
 import React from 'react'
 // import Header from './components/messages/header'
 // import UserList from './components/messages/userList'
-import MessagesBox from './components/messages/messagesBox'
+import MessagesBox from './messagesBox'
 
-class App extends React.Component {
+class MessageApp extends React.Component {
   render() {
     return (
         <div className='app'>
@@ -13,4 +13,4 @@ class App extends React.Component {
   }
 }
 
-export default App
+export default MessageApp

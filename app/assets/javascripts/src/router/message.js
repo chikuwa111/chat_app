@@ -1,14 +1,14 @@
 import ReactDecorator from '../base/react_decorator'
 import BaseRouter from '../base/router'
-import App from '../app'
+import MessageApp from '../components/messages/messageApp'
 
-export default class CardRouter extends BaseRouter {
+export default class MessageRouter extends BaseRouter {
   register() {
-    this.route('/messages', this.decorateApp)
+    this.route('/messages', this.decorateMessage)
   }
 
-  decorateApp(ctx, next) {
-    (new ReactDecorator()).decorate('react-main', App)
+  decorateMessage(ctx, next) {
+    (new ReactDecorator()).decorate('react-messages', MessageApp)
     next()
   }
 }
