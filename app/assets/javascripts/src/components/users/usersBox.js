@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classNames'
 import UsersStore from '../../stores/users'
 import UsersAction from '../../actions/users'
 
@@ -13,7 +12,7 @@ class UsersBox extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
-    return {users: UsersStore.getAllUsers()}
+    return {users: UsersStore.getShownUsers()}
   }
   componentDidMount() {
     UsersAction.getUserFromDB()
@@ -29,15 +28,10 @@ class UsersBox extends React.Component {
   }
   render() {
     const users = this.state.users.map((user, index) => {
-      const userClasses = classNames({
-        'user-box__item': true,
-      })
-
       return (
-        <li key={ index } className={ userClasses }>
+        <li key={ index } className='user-box__item'>
           <div className='user-box__item__contents'>
-          id: { user.id }, name: { user.name } <br/>
-          email: { user.email }
+            { user.name }
           </div>
         </li>
       )

@@ -20,4 +20,10 @@ export default {
       })
     })
   },
+  searchUser(input) {
+    Dispatcher.handleViewAction({
+      type: 'searchUser',
+      input: input,
+    })
+  },
 }

@@ -1,11 +1,12 @@
 import React from 'react'
-import UsersBox from './UsersBox'
+import UsersBox from './usersBox'
+import InputBox from './inputBox'
 
 class UserApp extends React.Component {
   render() {
     return (
       <div>
-        <h1>userApp is here</h1>
+        <InputBox />
         <UsersBox />
       </div>
     )

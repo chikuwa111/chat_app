@@ -1,7 +1,10 @@
 import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
+import _ from 'lodash'
 
 let users = []
+
+let shownUsers = []
 
 // const UsersStore = {
 //   user: {
@@ -21,6 +24,9 @@ class UserStore extends BaseStore {
   getAllUsers() {
     return users
   }
+  getShownUsers() {
+    return shownUsers
+  }
 }
 const UsersStore = new UserStore()
 
@@ -29,6 +35,18 @@ UsersStore.dispatchToken = Dispatcher.register(payload => {
     getUserFromDB(payload) {
       const json = payload.action.json
       users = json
+      UsersStore.emitChange()
+    },
+    searchUser(payload) {
+      const input = payload.action.input
+      shownUsers = []
+      if (input !== '') {
+        _.forEach(users, (user) => {
+          if (_.toLower(user.name).indexOf(_.toLower(input)) !== -1) {
+            shownUsers.push(user)
+          }
+        })
+      }
       UsersStore.emitChange()
     },
   }

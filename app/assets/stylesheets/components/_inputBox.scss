@@ -1,0 +1,18 @@
+.input-box {
+  width: 50%;
+  margin: 0 auto;
+  background: rgba( 0, 0, 0, 0.05 );
+  padding: 10px 11px;
+
+  &__input {
+    display: block;
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid rgba( 0, 0, 0, 0.1 );
+    padding: 10px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: rgba( 0, 0, 0, 0.7 );
+  }
+}
