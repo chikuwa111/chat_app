@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'users#home'
 
   namespace :api, { format: 'json'} do
-    resources :messages
+    resources :messages, only: [:index, :create]
+    resources :users, only: [:index]
   end
 end
