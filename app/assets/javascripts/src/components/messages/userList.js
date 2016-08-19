@@ -3,7 +3,7 @@ import _ from 'lodash'
 import classNames from 'classnames'
 import Utils from '../../utils'
 import MessagesStore from '../../stores/messages'
-import UserStore from '../../stores/user'
+import UsersStore from '../../stores/user'
 import MessagesAction from '../../actions/messages'
 
 class UserList extends React.Component {
@@ -72,7 +72,7 @@ class UserList extends React.Component {
 
       var isNewMessage = false
       if (message.lastAccess.currentUser < message.lastMessage.timestamp) {
-        isNewMessage = message.lastMessage.from !== UserStore.user.id
+        isNewMessage = message.lastMessage.from !== UsersStore.user.id
       }
 
       const itemClasses = classNames({

@@ -8,6 +8,8 @@
   box-sizing:         border-box;
 }
 
+// univarsal
+
 body {
   padding-top: 60px;
   overflow-y: auto;
@@ -27,6 +29,12 @@ body {
   &:hover {
     color: white;
     text-decoration: none;
+  }
+}
+
+nav {
+  .navbar-right {
+    font-weight: bold;
   }
 }
 

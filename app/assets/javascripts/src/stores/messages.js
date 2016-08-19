@@ -1,8 +1,6 @@
 import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
-// import UserStore from '../stores/user'
-
-let messages = []
+// import UsersStore from '../stores/user'
 
 // const messages = {
 //   2: {
@@ -86,13 +84,18 @@ class ChatStore extends BaseStore {
   //   return messages[id]
   // }
   getAllChats() {
-    return messages
+    if (!this.get('messages')) this.setChats([])
+    return this.get('messages')
+  }
+  setChats(array) {
+    this.set('messages', array)
   }
 }
 const MessagesStore = new ChatStore()
 
 MessagesStore.dispatchToken = Dispatcher.register(payload => {
-  const actions = {
+  const action = payload.action
+  switch (action.type) {
     // updateOpenChatID(payload) {
     //   openChatID = payload.action.userID
     //   messages[openChatID].lastAccess.currentUser = +new Date()
@@ -103,29 +106,28 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     //   messages[userID].messages.push({
     //     contents: payload.action.message,
     //     timestamp: payload.action.timestamp,
-    //     from: UserStore.user.id,
+    //     from: UsersStore.user.id,
     //   })
     //   messages[userID].lastAccess.currentUser = +new Date()
     //   MessagesStore.emitChange()
     // },
-    getMessageFromDB(payload) {
-      const json = payload.action.json
-      messages = json
+    case 'getMessageFromDB':
+      MessagesStore.setChats(action.json)
       MessagesStore.emitChange()
-    },
-    sendMessageToDB(payload) {
-      const message = payload.action.message
-      if (!(message === '')) {
-        messages.push({
-          contents: message,
-        })
-      }
-      console.log(messages)
-      MessagesStore.emitChange()
-    },
-  }
+      break
 
-  actions[payload.action.type] && actions[payload.action.type](payload)
+    case 'sendMessageToDB':
+      const message = {
+        contents: action.message,
+      }
+      if (message !== '') {
+        MessagesStore.getAllChats().push(message)
+      }
+      MessagesStore.emitChange()
+      break
+
+    default:
+  }
 })
 
 export default MessagesStore

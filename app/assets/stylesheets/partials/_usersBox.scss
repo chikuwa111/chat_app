@@ -1,0 +1,24 @@
+.user-box {
+  width: 50%;
+  margin: 0 auto;
+
+  &__list {
+    padding: 25px;
+    position: absolute;
+    top: 135px;
+    bottom: 0;
+    width: 45%;
+    overflow-y: auto;
+  }
+
+  &__item {
+    &__contents {
+      background: rgba(0, 0, 0, 0.08);
+      font-size: 14px;
+      font-weight: bold;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  }
+}
