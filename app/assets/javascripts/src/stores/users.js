@@ -2,10 +2,6 @@ import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
 import _ from 'lodash'
 
-let users = []
-
-let shownUsers = []
-
 // const UsersStore = {
 //   user: {
 //     id: 1,
@@ -22,10 +18,18 @@ class UserStore extends BaseStore {
     this.off('change', callback)
   }
   getAllUsers() {
-    return users
+    if (!this.get('users')) this.setUsers([])
+    return this.get('users')
   }
-  getShownUsers() {
-    return shownUsers
+  setUsers(array) {
+    this.set('users', array)
+  }
+  getShownUsers(array) {
+    if (!this.get('shown_users')) this.setShownUsers([])
+    return this.get('shown_users')
+  }
+  setShownUsers(array) {
+    this.set('shown_users', array)
   }
 }
 const UsersStore = new UserStore()
@@ -34,19 +38,21 @@ UsersStore.dispatchToken = Dispatcher.register(payload => {
   const actions = {
     getUserFromDB(payload) {
       const json = payload.action.json
-      users = json
+      UsersStore.setUsers(json)
       UsersStore.emitChange()
     },
     searchUser(payload) {
       const input = payload.action.input
-      shownUsers = []
+      const shownUsers = []
       if (input !== '') {
+        const users = UsersStore.getAllUsers()
         _.forEach(users, (user) => {
           if (_.toLower(user.name).indexOf(_.toLower(input)) !== -1) {
             shownUsers.push(user)
           }
         })
       }
+      UsersStore.setShownUsers(shownUsers)
       UsersStore.emitChange()
     },
   }
