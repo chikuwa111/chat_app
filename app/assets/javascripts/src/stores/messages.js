@@ -90,6 +90,13 @@ class ChatStore extends BaseStore {
   setChats(array) {
     this.set('messages', array)
   }
+  getFriends() {
+    if (!this.get('friends')) this.setFriends([])
+    return this.get('friends')
+  }
+  setFriends(array) {
+    this.set('friends', array)
+  }
 }
 const MessagesStore = new ChatStore()
 
@@ -123,6 +130,11 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
       if (message !== '') {
         MessagesStore.getAllChats().push(message)
       }
+      MessagesStore.emitChange()
+      break
+
+    case 'getFriendFromDB':
+      MessagesStore.setFriends(action.json)
       MessagesStore.emitChange()
       break
 

@@ -52,4 +52,22 @@ export default {
       })
     })
   },
+  getFriendFromDB() {
+    return new Promise((resolve, reject) => {
+      request
+      .get('/api/friends')
+      .end((error, res) => {
+        if (!error && res.status === 200) {
+          const json = JSON.parse(res.text)
+          resolve(json)
+          Dispatcher.handleServerAction({
+            type: 'getFriendFromDB',
+            json: json,
+          })
+        } else {
+          reject(res)
+        }
+      })
+    })
+  },
 }
