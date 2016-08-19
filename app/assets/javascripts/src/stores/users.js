@@ -35,13 +35,15 @@ class UserStore extends BaseStore {
 const UsersStore = new UserStore()
 
 UsersStore.dispatchToken = Dispatcher.register(payload => {
-  const actions = {
-    getUserFromDB(payload) {
+  const action = payload.action
+  switch (action.type) {
+    case 'getUserFromDB':
       const json = payload.action.json
       UsersStore.setUsers(json)
       UsersStore.emitChange()
-    },
-    searchUser(payload) {
+      break
+
+    case 'searchUser':
       const input = payload.action.input
       const shownUsers = []
       if (input !== '') {
@@ -54,10 +56,10 @@ UsersStore.dispatchToken = Dispatcher.register(payload => {
       }
       UsersStore.setShownUsers(shownUsers)
       UsersStore.emitChange()
-    },
-  }
+      break
 
-  actions[payload.action.type] && actions[payload.action.type](payload)
+    default:
+  }
 })
 
 export default UsersStore
