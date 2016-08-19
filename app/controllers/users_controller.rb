@@ -1,7 +1,13 @@
 class UsersController < ApplicationController
-  before_action :logged_in, only: :index
+  before_action :logged_in, only: [:index, :find]
+
+  def home
+  end
 
   def index
+  end
+
+  def find
   end
 
   private

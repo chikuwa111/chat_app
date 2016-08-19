@@ -1,6 +1,6 @@
 import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
-// import UserStore from '../stores/user'
+// import UsersStore from '../stores/user'
 
 // const messages = {
 //   2: {
@@ -106,7 +106,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     //   messages[userID].messages.push({
     //     contents: payload.action.message,
     //     timestamp: payload.action.timestamp,
-    //     from: UserStore.user.id,
+    //     from: UsersStore.user.id,
     //   })
     //   messages[userID].lastAccess.currentUser = +new Date()
     //   MessagesStore.emitChange()

@@ -2,20 +2,20 @@ import Dispatcher from '../dispatcher'
 import request from 'superagent'
 
 export default {
-  changeOpenChat(newUserID) {
-    Dispatcher.handleViewAction({
-      type: 'updateOpenChatID',
-      userID: newUserID,
-    })
-  },
-  sendMessage(userID, message) {
-    Dispatcher.handleViewAction({
-      type: 'sendMessage',
-      userID: userID,
-      message: message,
-      timestamp: +new Date(),
-    })
-  },
+  // changeOpenChat(newUserID) {
+  //   Dispatcher.handleViewAction({
+  //     type: 'updateOpenChatID',
+  //     userID: newUserID,
+  //   })
+  // },
+  // sendMessage(userID, message) {
+  //   Dispatcher.handleViewAction({
+  //     type: 'sendMessage',
+  //     userID: userID,
+  //     message: message,
+  //     timestamp: +new Date(),
+  //   })
+  // },
   getMessageFromDB() {
     return new Promise((resolve, reject) => {
       request
