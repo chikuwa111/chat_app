@@ -15,7 +15,13 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    Relationships.find(params[:id]).destroy
+    friendship = current_user.friendships_of_from_user.find_by(to_user_id: params[:id])
+    if !!(friendship)
+      friendship.destroy
+    else
+      inverse_friendship = current_user.friendships_of_to_user.find_by(from_user_id: params[:id])
+      inverse_friendship.destroy
+    end
     flash[:notice] = "Successfully resolved friendship."
     redirect_to root_url
   end

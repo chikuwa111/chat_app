@@ -45,6 +45,21 @@ class UserList extends React.Component {
   changeOpenChat(id) {
     MessagesAction.changeOpenChat(id)
   }
+  resolveFriendship(user_id) {
+    if (confirm('Are you sure?')) {
+      var form = document.createElement('form')
+      document.body.appendChild(form)
+      var input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', '_method')
+      input.setAttribute('value', 'DELETE')
+      form.appendChild(input)
+      const actionPath = '/friendships/' + user_id
+      form.setAttribute('action', actionPath)
+      form.setAttribute('method', 'post')
+      form.submit()
+    }
+  }
   render() {
     // this.state.messageList.sort((a, b) => {
     //   if (a.lastMessage.timestamp > b.lastMessage.timestamp) {
@@ -116,7 +131,8 @@ class UserList extends React.Component {
           </div>
           <div className='user-list__item__details'>
             <h4 className='user-list__item__name'>
-              { friend.name }
+              { friend.name } |
+              <a href='#' onClick={ this.resolveFriendship.bind(this, friend.id) }> delete</a>
               <abbr className='user-list__item__timestamp'>
               </abbr>
             </h4>
