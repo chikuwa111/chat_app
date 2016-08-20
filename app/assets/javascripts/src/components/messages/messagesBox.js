@@ -16,8 +16,7 @@ class MessagesBox extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
-    // return MessagesStore.getChatByUserID(MessagesStore.getOpenChatUserID())
-    return {messages: MessagesStore.getAllChats()}
+    return {messages: MessagesStore.getChatByUserID(MessagesStore.getOpenChatUserID())}
   }
   componentDidMount() {
     MessagesAction.getMessageFromDB()
@@ -38,7 +37,7 @@ class MessagesBox extends React.Component {
     const messages = this.state.messages.map((message, index) => {
       const messageClasses = classNames({
         'message-box__item': true,
-        // 'message-box__item--from-current': message.from === currentUserID,
+        'message-box__item--from-current': message.from_user_id !== MessagesStore.getOpenChatUserID(),
         'clear': true,
       })
 
