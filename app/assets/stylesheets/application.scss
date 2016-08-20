@@ -15,6 +15,13 @@ body {
   overflow-y: auto;
 }
 
+.alert-success {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 60px 10px;
+  z-index: 1;
+}
 // header
 
 #logo {
