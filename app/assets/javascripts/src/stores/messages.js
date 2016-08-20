@@ -77,18 +77,42 @@ class ChatStore extends BaseStore {
   removeChangeListener(callback) {
     this.off('change', callback)
   }
-  // getOpenChatUserID() {
-  //   return openChatID
-  // }
-  // getChatByUserID(id) {
-  //   return messages[id]
-  // }
+  getOpenChatUserID() {
+    if (!this.get('openChatID')) {
+      if (MessagesStore.getFriends().length === 0) {
+        this.setOpenChatUserID(0)
+      } else {
+        console.log(MessagesStore.getFriends()[0]['id'])
+        this.setOpenChatUserID(MessagesStore.getFriends()[0]['id'])
+      }
+    }
+    return this.get('openChatID')
+  }
+  setOpenChatUserID(id) {
+    this.set('openChatID', id)
+  }
+  getChatByUserID(id) {
+    const messages = []
+    MessagesStore.getAllChats().map((message, index) => {
+      if (message.from_user_id === id || message.to_user_id === id) {
+        messages.push(message)
+      }
+    }, this)
+    return messages
+  }
   getAllChats() {
     if (!this.get('messages')) this.setChats([])
     return this.get('messages')
   }
   setChats(array) {
     this.set('messages', array)
+  }
+  getFriends() {
+    if (!this.get('friends')) this.setFriends([])
+    return this.get('friends')
+  }
+  setFriends(array) {
+    this.set('friends', array)
   }
 }
 const MessagesStore = new ChatStore()
@@ -111,6 +135,11 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     //   messages[userID].lastAccess.currentUser = +new Date()
     //   MessagesStore.emitChange()
     // },
+    case 'updateOpenChatID':
+      MessagesStore.setOpenChatUserID(action.id)
+      MessagesStore.emitChange()
+      break
+
     case 'getMessageFromDB':
       MessagesStore.setChats(action.json)
       MessagesStore.emitChange()
@@ -119,6 +148,8 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     case 'sendMessageToDB':
       const message = {
         contents: action.message,
+        from_user_id: 0,
+        to_user_id: action.to_user_id,
       }
       if (message !== '') {
         MessagesStore.getAllChats().push(message)
@@ -126,8 +157,13 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
       MessagesStore.emitChange()
       break
 
+    case 'getFriendFromDB':
+      MessagesStore.setFriends(action.json)
+      MessagesStore.emitChange()
+      break
+
     default:
   }
 })
-
+window.MessagesStore = MessagesStore
 export default MessagesStore

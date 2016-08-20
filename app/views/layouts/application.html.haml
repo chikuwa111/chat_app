@@ -12,7 +12,13 @@
     .container
       - flash.each do |message_type, message|
         - if message_type == "notice"
-          %div{:class => "alert alert-success"}= message
+          %div{:class => "alert alert-success fade in"}
+            %a{:href => "#", :class => "close", "data-dismiss" => "alert", "aria-label" => "alert"}
+              &times;
+            = message
         - elsif message_type == "alert"
-          %div{:class => "alert alert-warning"}= message
+          %div{:class => "alert alert-warning fade in"}
+            %a{:href => "#", :class => "close", "data-dismiss" => "alert", "aria-label" => "alert"}
+              &times;
+            = message
       = yield

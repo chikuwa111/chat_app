@@ -26,11 +26,26 @@ class UsersBox extends React.Component {
   onStoreChange() {
     this.setState(this.getStateFromStore())
   }
+  makeFriendsWith(id) {
+    var form = document.createElement('form')
+    document.body.appendChild(form)
+    var input = document.createElement('input')
+    input.setAttribute('type', 'hidden')
+    input.setAttribute('name', 'to_user_id')
+    input.setAttribute('value', id)
+    form.appendChild(input)
+    form.setAttribute('action', '/friendships')
+    form.setAttribute('method', 'post')
+    form.submit()
+  }
   render() {
     const users = this.state.users.map((user, index) => {
       return (
-        <li key={ index } className='user-box__item'>
-          <div className='user-box__item__contents'>
+        <li key={ user.id } className='user-box__item'>
+          <div
+            className='user-box__item__contents'
+            onClick={ this.makeFriendsWith.bind(this, user.id) }
+          >
             { user.name }
           </div>
         </li>
