@@ -3,19 +3,20 @@ class FriendshipsController < ApplicationController
 
   def create
     user = User.find(params[:to_user_id])
+    friendship = current_user.friendships_of_from_user.find_by(to_user_id: user.id)
     inverse_friendship = user.friendships_of_from_user.find_by(to_user_id: current_user.id)
-    if !!(inverse_friendship)
+    if !!(inverse_friendship) || !!(friendship)
       redirect_to messages_url
       return
     end
     current_user.friendships_of_from_user.create(to_user_id: user.id)
     flash[:notice] = "Successfully make friends with #{user.name}!"
-    redirect_to root_url
+    redirect_to messages_url
   end
 
   def destroy
     Relationships.find(params[:id]).destroy
-    flash[:notice] = "Successfully resolved."
+    flash[:notice] = "Successfully resolved friendship."
     redirect_to root_url
   end
 end
