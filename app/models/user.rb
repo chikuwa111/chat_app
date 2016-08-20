@@ -8,6 +8,11 @@ class User < ActiveRecord::Base
   has_many :friends_of_to_user, through: :friendships_of_to_user,
             source: 'from_user'
 
+  has_many :received_messages, class_name: 'Message',
+            foreign_key: 'to_user_id', dependent: :destroy
+  has_many :sent_messages, class_name: 'Message',
+            foreign_key: 'from_user_id', dependent: :destroy
+
   validates :name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -16,5 +21,9 @@ class User < ActiveRecord::Base
 
   def friends
     friends_of_from_user + friends_of_to_user
+  end
+
+  def messages
+    received_messages + sent_messages
   end
 end
