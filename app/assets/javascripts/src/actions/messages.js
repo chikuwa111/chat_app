@@ -8,14 +8,7 @@ export default {
       id: id,
     })
   },
-  // sendMessage(userID, message) {
-  //   Dispatcher.handleViewAction({
-  //     type: 'sendMessage',
-  //     userID: userID,
-  //     message: message,
-  //     timestamp: +new Date(),
-  //   })
-  // },
+
   getMessageFromDB() {
     return new Promise((resolve, reject) => {
       request
@@ -34,6 +27,7 @@ export default {
       })
     })
   },
+
   sendMessageToDB(message, id) {
     return new Promise((resolve, reject) => {
       request
@@ -42,11 +36,10 @@ export default {
             to_user_id: id})
       .end((error, res) => {
         if (!error && res.ok) {
-          console.log('success')
+          const json = JSON.parse(res.text)
           Dispatcher.handleViewAction({
             type: 'sendMessageToDB',
-            message: message,
-            to_user_id: id,
+            json: json,
           })
         } else {
           console.error(error)
@@ -54,6 +47,7 @@ export default {
       })
     })
   },
+
   getFriendFromDB() {
     return new Promise((resolve, reject) => {
       request
@@ -68,6 +62,28 @@ export default {
           })
         } else {
           reject(res)
+        }
+      })
+    })
+  },
+
+  sendImageToDB(file, to_user_id) {
+    return new Promise((resolve, reject) => {
+      request
+      .post('/api/messages.json')
+      .field('contents', 'image')
+      .field('to_user_id', to_user_id)
+      .attach('image', file)
+      .end((error, res) => {
+        if (!error && res.ok) {
+          const json = JSON.parse(res.text)
+          resolve(json)
+          Dispatcher.handleServerAction({
+            type: 'sendImageToDB',
+            json: json,
+          })
+        } else {
+          console.error(error)
         }
       })
     })

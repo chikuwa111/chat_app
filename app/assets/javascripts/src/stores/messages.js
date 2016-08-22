@@ -82,7 +82,6 @@ class ChatStore extends BaseStore {
       if (MessagesStore.getFriends().length === 0) {
         this.setOpenChatUserID(0)
       } else {
-        console.log(MessagesStore.getFriends()[0]['id'])
         this.setOpenChatUserID(MessagesStore.getFriends()[0]['id'])
       }
     }
@@ -146,19 +145,19 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
       break
 
     case 'sendMessageToDB':
-      const message = {
-        contents: action.message,
-        from_user_id: 0,
-        to_user_id: action.to_user_id,
-      }
-      if (message !== '') {
-        MessagesStore.getAllChats().push(message)
+      if (action.json.contents !== '') {
+        MessagesStore.getAllChats().push(action.json)
       }
       MessagesStore.emitChange()
       break
 
     case 'getFriendFromDB':
       MessagesStore.setFriends(action.json)
+      MessagesStore.emitChange()
+      break
+
+    case 'sendImageToDB':
+      MessagesStore.getAllChats().push(action.json)
       MessagesStore.emitChange()
       break
 

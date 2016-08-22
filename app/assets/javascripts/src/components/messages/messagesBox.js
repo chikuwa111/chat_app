@@ -39,16 +39,28 @@ class MessagesBox extends React.Component {
         'message-box__item': true,
         'message-box__item--from-current': message.from_user_id !== MessagesStore.getOpenChatUserID(),
         'clear': true,
+        'message-box__item--image': message.image,
       })
 
-       // <li key={ message.timestamp + '-' + message.from } className={ messageClasses }>
-      return (
+      // <li key={ message.timestamp + '-' + message.from } className={ messageClasses }>
+      if (!message.image) {
+        return (
           <li key={ index } className={ messageClasses }>
             <div className='message-box__item__contents'>
               { message.contents }
             </div>
           </li>
         )
+      } else {
+        const filePath = 'message_image/' + message.image
+        return (
+          <li key={ index } className={ messageClasses }>
+            <div className='message-box__item__contents'>
+              <img src={ filePath } />
+            </div>
+          </li>
+        )
+      }
     })
 
     // const lastMessage = this.state.messages[messagesLength - 1]

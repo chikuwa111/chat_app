@@ -8,10 +8,19 @@ module Api
     end
 
     def create
-      @message = Message.create(contents: params[:contents],
-                                from_user_id: current_user.id,
-                                to_user_id: params[:to_user_id])
-      redirect_to root_url
+      @message = Message.new(contents: params[:contents],
+                              from_user_id: current_user.id,
+                              to_user_id: params[:to_user_id])
+      file = params[:image]
+      if !file.nil?
+        file_name =  Time.now().to_s + file.original_filename
+        File.open("public/message_image/#{file_name}", 'wb') {
+          |f| f.write(file.read)
+        }
+        @message.image = file_name
+      end
+      @message.save
+      render json: @message
     end
 
     private
