@@ -71,19 +71,20 @@ export default {
       })
     })
   },
-  sendImageToDB(file, file_name, to_user_id) {
+  sendImageToDB(file, to_user_id) {
     return new Promise((resolve, reject) => {
       request
       .post('/api/messages.json')
       .field('contents', 'image')
       .field('to_user_id', to_user_id)
-      .field('file_name', file_name)
       .attach('image', file)
       .end((error, res) => {
         if (!error && res.ok) {
+          const json = JSON.parse(res.text)
+          resolve(json)
           Dispatcher.handleServerAction({
             type: 'sendImageToDB',
-            file_name: file_name,
+            json: json,
             to_user_id: to_user_id,
           })
         } else {

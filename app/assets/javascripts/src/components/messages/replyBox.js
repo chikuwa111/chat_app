@@ -42,8 +42,7 @@ class ReplyBox extends React.Component {
   updateImage(e) {
     if (e.target.files.length === 0) return
     const file = e.target.files[0]
-    const file_name = file.name + Date.now()
-    MessagesAction.sendImageToDB(file, file_name, MessagesStore.getOpenChatUserID())
+    MessagesAction.sendImageToDB(file, MessagesStore.getOpenChatUserID())
   }
   render() {
     return (

@@ -166,7 +166,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
         contents: '',
         from_user_id: 0,
         to_user_id: action.to_user_id,
-        image: action.file_name,
+        image: action.json.image,
       }
       MessagesStore.getAllChats().push(messageWithImage)
       MessagesStore.emitChange()
