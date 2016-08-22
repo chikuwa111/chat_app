@@ -52,11 +52,11 @@ class MessagesBox extends React.Component {
           </li>
         )
       } else {
-        const file_path = 'message_image/' + message.image
+        const filePath = 'message_image/' + message.image
         return (
           <li key={ index } className={ messageClasses }>
             <div className='message-box__item__contents'>
-              <img src={ file_path } />
+              <img src={ filePath } />
             </div>
           </li>
         )
