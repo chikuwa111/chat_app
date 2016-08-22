@@ -21,3 +21,4 @@ npm-debug.log
 # Ignore other unnecessary files.
 .DS_Store
 public/assets/javascripts/boot.js
+public/message_image
