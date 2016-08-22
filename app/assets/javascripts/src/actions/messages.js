@@ -42,7 +42,6 @@ export default {
             to_user_id: id})
       .end((error, res) => {
         if (!error && res.ok) {
-          console.log('success')
           Dispatcher.handleViewAction({
             type: 'sendMessageToDB',
             message: message,
@@ -68,6 +67,27 @@ export default {
           })
         } else {
           reject(res)
+        }
+      })
+    })
+  },
+  sendImageToDB(file, file_name, to_user_id) {
+    return new Promise((resolve, reject) => {
+      request
+      .post('/api/messages.json')
+      .field('contents', 'image')
+      .field('to_user_id', to_user_id)
+      .field('file_name', file_name)
+      .attach('image', file)
+      .end((error, res) => {
+        if (!error && res.ok) {
+          Dispatcher.handleServerAction({
+            type: 'sendImageToDB',
+            file_name: file_name,
+            to_user_id: to_user_id,
+          })
+        } else {
+          console.error(error)
         }
       })
     })

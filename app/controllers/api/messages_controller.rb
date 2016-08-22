@@ -8,9 +8,18 @@ module Api
     end
 
     def create
-      @message = Message.create(contents: params[:contents],
-                                from_user_id: current_user.id,
-                                to_user_id: params[:to_user_id])
+      @message = Message.new(contents: params[:contents],
+                              from_user_id: current_user.id,
+                              to_user_id: params[:to_user_id])
+      file = params[:image]
+      if !file.nil?
+        file_name = params[:file_name]
+        File.open("public/message_image/#{file_name}", 'wb') {
+          |f| f.write(file.read)
+        }
+        @message.image = file_name
+      end
+      @message.save
       redirect_to root_url
     end
 
