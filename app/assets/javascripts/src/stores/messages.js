@@ -150,7 +150,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
         from_user_id: 0,
         to_user_id: action.to_user_id,
       }
-      if (message !== '') {
+      if (message.contents !== '') {
         MessagesStore.getAllChats().push(message)
       }
       MessagesStore.emitChange()
