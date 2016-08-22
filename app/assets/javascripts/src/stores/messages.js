@@ -145,13 +145,8 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
       break
 
     case 'sendMessageToDB':
-      const message = {
-        contents: action.message,
-        from_user_id: 0,
-        to_user_id: action.to_user_id,
-      }
-      if (message.contents !== '') {
-        MessagesStore.getAllChats().push(message)
+      if (action.json.contents !== '') {
+        MessagesStore.getAllChats().push(action.json)
       }
       MessagesStore.emitChange()
       break
@@ -162,13 +157,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
       break
 
     case 'sendImageToDB':
-      const messageWithImage = {
-        contents: '',
-        from_user_id: 0,
-        to_user_id: action.to_user_id,
-        image: action.json.image,
-      }
-      MessagesStore.getAllChats().push(messageWithImage)
+      MessagesStore.getAllChats().push(action.json)
       MessagesStore.emitChange()
       break
 
