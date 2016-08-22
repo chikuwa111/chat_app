@@ -40,6 +40,12 @@
         float: right;
       }
     }
+
+    &--image {
+      .message-box__item__contents {
+        padding: 0;
+      }
+    }
   }
 
   .reply-box {
