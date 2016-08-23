@@ -93,7 +93,7 @@ class ChatStore extends BaseStore {
   }
   getChatByUserID(id) {
     const messages = []
-    MessagesStore.getAllChats().map((message, index) => {
+    MessagesStore.getAllChats().map(message => {
       if (message.from_user_id === id || message.to_user_id === id) {
         messages.push(message)
       }
