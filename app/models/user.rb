@@ -26,4 +26,20 @@ class User < ActiveRecord::Base
   def messages
     received_messages + sent_messages
   end
+
+  def friend?(user)
+    friendship = self.friendships_of_from_user.find_by(to_user_id: user.id)
+    inverse_friendship = user.friendships_of_from_user.find_by(to_user_id: self.id)
+    friendship || inverse_friendship
+  end
+
+  def resolve_friendship_with(user_id)
+    if friendship = self.friendships_of_from_user.find_by(to_user_id: user_id)
+      friendship.destroy
+      return
+    elsif inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user_id)
+      inverse_friendship.destroy
+      return
+    end
+  end
 end
