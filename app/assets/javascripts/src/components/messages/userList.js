@@ -45,7 +45,7 @@ class UserList extends React.Component {
   changeOpenChat(id) {
     MessagesAction.changeOpenChat(id)
   }
-  resolveFriendship(user_id) {
+  destroyFriendship(user_id) {
     if (confirm('Are you sure?')) {
       const actionPath = '/friendships/' + user_id
       Utils.delete(actionPath)
@@ -123,7 +123,7 @@ class UserList extends React.Component {
           <div className='user-list__item__details'>
             <h4 className='user-list__item__name'>
               { friend.name } |
-              <span className='delete' onClick={ this.resolveFriendship.bind(this, friend.id) }> delete</span>
+              <span className='delete' onClick={ this.destroyFriendship.bind(this, friend.id) }> delete</span>
               <abbr className='user-list__item__timestamp'>
               </abbr>
             </h4>
