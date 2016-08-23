@@ -1,6 +1,7 @@
 import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
 import _ from 'lodash'
+import {ActionTypes} from '../constants/app'
 
 // const UsersStore = {
 //   user: {
@@ -37,13 +38,13 @@ const UsersStore = new UserStore()
 UsersStore.dispatchToken = Dispatcher.register(payload => {
   const action = payload.action
   switch (action.type) {
-    case 'getUserFromDB':
+    case ActionTypes.LOAD_USERS:
       const json = payload.action.json
       UsersStore.setUsers(json)
       UsersStore.emitChange()
       break
 
-    case 'searchUser':
+    case ActionTypes.LOAD_SEARCH_USERS:
       const input = payload.action.input
       const shownUsers = []
       if (input !== '') {

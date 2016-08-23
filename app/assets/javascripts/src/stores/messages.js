@@ -1,5 +1,6 @@
 import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
+import {ActionTypes} from '../constants/app'
 // import UsersStore from '../stores/user'
 
 // const messages = {
@@ -134,29 +135,29 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     //   messages[userID].lastAccess.currentUser = +new Date()
     //   MessagesStore.emitChange()
     // },
-    case 'updateOpenChatID':
+    case ActionTypes.UPDATE_OPEN_CHAT_ID:
       MessagesStore.setOpenChatUserID(action.id)
       MessagesStore.emitChange()
       break
 
-    case 'getMessageFromDB':
+    case ActionTypes.LOAD_MESSAGES:
       MessagesStore.setChats(action.json)
       MessagesStore.emitChange()
       break
 
-    case 'sendMessageToDB':
+    case ActionTypes.SAVE_MESSAGE:
       if (action.json.contents !== '') {
         MessagesStore.getAllChats().push(action.json)
       }
       MessagesStore.emitChange()
       break
 
-    case 'getFriendFromDB':
+    case ActionTypes.LOAD_FRIENDS:
       MessagesStore.setFriends(action.json)
       MessagesStore.emitChange()
       break
 
-    case 'sendImageToDB':
+    case ActionTypes.SAVE_IMAGE_CHAT:
       MessagesStore.getAllChats().push(action.json)
       MessagesStore.emitChange()
       break
