@@ -132,7 +132,7 @@ class UserList extends React.Component {
           <div className='user-list__item__details'>
             <h4 className='user-list__item__name'>
               { friend.name } |
-              <a href='#' onClick={ this.resolveFriendship.bind(this, friend.id) }> delete</a>
+              <span className='delete' onClick={ this.resolveFriendship.bind(this, friend.id) }> delete</span>
               <abbr className='user-list__item__timestamp'>
               </abbr>
             </h4>
