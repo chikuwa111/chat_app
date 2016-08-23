@@ -4,6 +4,7 @@ import request from 'superagent'
 export default {
   changeOpenChat(id) {
     Dispatcher.handleViewAction({
+      // ここの'updateOpenChatID'みたいなのは定数として管理する。storeの方も同様。
       type: 'updateOpenChatID',
       id: id,
     })
@@ -12,6 +13,7 @@ export default {
   getMessageFromDB() {
     return new Promise((resolve, reject) => {
       request
+      // urlも定数で管理
       .get('/api/messages')
       .end((error, res) => {
         if (!error && res.status === 200) {

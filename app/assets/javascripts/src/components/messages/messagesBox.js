@@ -34,6 +34,7 @@ class MessagesBox extends React.Component {
     // const messagesLength = this.state.messages.length
     // const currentUserID = UsersStore.user.id
 
+    // index消してkey={message.id}にする
     const messages = this.state.messages.map((message, index) => {
       const messageClasses = classNames({
         'message-box__item': true,
