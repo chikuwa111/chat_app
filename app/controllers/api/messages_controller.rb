@@ -1,6 +1,5 @@
 module Api
   class MessagesController < ApplicationController
-    protect_from_forgery :except => [:index, :create]
 
     def index
       @messages = current_user.messages.sort_by{|message| message.id}

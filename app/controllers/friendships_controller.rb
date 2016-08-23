@@ -1,5 +1,4 @@
 class FriendshipsController < ApplicationController
-  protect_from_forgery :except => [:create, :destroy]
 
   def create
     user = User.find(params[:to_user_id])

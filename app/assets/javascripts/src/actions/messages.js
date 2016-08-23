@@ -1,6 +1,6 @@
 import Dispatcher from '../dispatcher'
 import request from 'superagent'
-import {APIEndpoints, ActionTypes} from '../constants/app'
+import {APIEndpoints, ActionTypes, CSRFToken} from '../constants/app'
 
 export default {
   changeOpenChat(id) {
@@ -33,6 +33,7 @@ export default {
     return new Promise((resolve, reject) => {
       request
       .post(APIEndpoints.MESSAGES)
+      .set('X-CSRF-Token', CSRFToken())
       .send({contents: message,
             to_user_id: id})
       .end((error, res) => {
@@ -72,6 +73,7 @@ export default {
     return new Promise((resolve, reject) => {
       request
       .post(APIEndpoints.MESSAGES)
+      .set('X-CSRF-Token', CSRFToken())
       .field('contents', 'image')
       .field('to_user_id', to_user_id)
       .attach('image', file)

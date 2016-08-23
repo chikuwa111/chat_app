@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import $ from '../vendor/jquery'
-// import {CSRFToken} from '../constants/app'
+import {CSRFToken} from '../constants/app'
 
 const Utils = {
   post: (path, params) => {
-    // params['authenticity_token'] = CSRFToken()
+    params['authenticity_token'] = CSRFToken()
     const form = $('<form></form>')
     form.attr('method', 'post')
     form.attr('action', path)
