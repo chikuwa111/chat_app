@@ -3,8 +3,12 @@ class FriendshipsController < ApplicationController
 
   def create
     user = User.find(params[:to_user_id])
+    # 以下の3行はUserモデルにうつしてメソッドにしちゃいましょう。
+    # if current_user.friend?(user)
+    # みたいに使う
     friendship = current_user.friendships_of_from_user.find_by(to_user_id: user.id)
     inverse_friendship = user.friendships_of_from_user.find_by(to_user_id: current_user.id)
+    # !!は必要かな？
     if !!(inverse_friendship) || !!(friendship)
       redirect_to messages_url
       return

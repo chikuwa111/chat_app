@@ -27,6 +27,7 @@ class UsersBox extends React.Component {
     this.setState(this.getStateFromStore())
   }
   makeFriendsWith(id) {
+    // ここはUtilに移したい。相馬くんのを参考に。
     var form = document.createElement('form')
     document.body.appendChild(form)
     var input = document.createElement('input')
@@ -39,6 +40,7 @@ class UsersBox extends React.Component {
     form.submit()
   }
   render() {
+    // index消す
     const users = this.state.users.map((user, index) => {
       return (
         <li key={ user.id } className='user-box__item'>

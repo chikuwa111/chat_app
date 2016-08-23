@@ -47,6 +47,7 @@ class UserList extends React.Component {
   }
   resolveFriendship(user_id) {
     if (confirm('Are you sure?')) {
+      // var使わない
       var form = document.createElement('form')
       document.body.appendChild(form)
       var input = document.createElement('input')
@@ -127,12 +128,15 @@ class UserList extends React.Component {
           className={ itemClasses }
           key={ index }
         >
+          {/* これ必要？余分なものは消しちゃいましょう */}
           <div className='user-list__item__picture'>
           </div>
           <div className='user-list__item__details'>
             <h4 className='user-list__item__name'>
               { friend.name } |
+              {/* onClickあるのでaタグ使わなくて大丈夫 */}
               <a href='#' onClick={ this.resolveFriendship.bind(this, friend.id) }> delete</a>
+              {/* これとかも必要？ */}
               <abbr className='user-list__item__timestamp'>
               </abbr>
             </h4>

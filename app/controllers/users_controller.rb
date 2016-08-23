@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   private
 
+  # これはdeviseの用意してるauthenticate_user!でいけるかな？
     def logged_in
       if !(user_signed_in?)
         flash[:alert] = "You need to login."
