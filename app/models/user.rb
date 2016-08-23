@@ -19,6 +19,16 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :rememberable, :validatable
 
+  def set_image(file)
+    if !file.nil?
+      file_name = Time.now().to_i.to_s + file.original_filename
+      File.open("public/user_image/#{file_name}", 'wb') {
+        |f| f.write(file.read)
+      }
+      self.picture = file_name
+    end
+  end
+
   def friends
     friends_of_from_user + friends_of_to_user
   end

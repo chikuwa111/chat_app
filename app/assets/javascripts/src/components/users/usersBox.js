@@ -39,6 +39,9 @@ class UsersBox extends React.Component {
             className='user-box__item__contents'
             onClick={ this.makeFriendsWith.bind(this, user.id) }
           >
+            <span className='user-box__item__picture'>
+              <img src={ user.picture ? '/user_image/' + user.picture : '/default_user_image/default.png' } />
+            </span>
             { user.name }
           </div>
         </li>

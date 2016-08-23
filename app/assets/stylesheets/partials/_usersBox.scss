@@ -14,7 +14,8 @@
   &__item {
     &__contents {
       background: rgba(0, 0, 0, 0.08);
-      font-size: 14px;
+      height: 50px;
+      font-size: 20px;
       font-weight: bold;
       padding: 10px 15px;
       margin-bottom: 10px;
@@ -22,6 +23,19 @@
       cursor: pointer;
       &:hover {
         background: rgba(0, 0, 0, 0.2)
+      }
+    }
+    &__picture {
+      position: relative;
+      top: -5px;
+      left: 5px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      float: left;
+      img {
+        width: inherit;
       }
     }
   }

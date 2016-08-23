@@ -26,6 +26,7 @@ class UserList extends React.Component {
         // lastAccess: message.lastAccess,
         name: friend.name,
         id: friend.id,
+        picture: friend.picture,
       })
     })
     return {
@@ -119,6 +120,7 @@ class UserList extends React.Component {
           key={ friend.id }
         >
           <div className='user-list__item__picture'>
+            <img src={ friend.picture ? '/user_image/' + friend.picture : '/default_user_image/default.png'} />
           </div>
           <div className='user-list__item__details'>
             <h4 className='user-list__item__name'>

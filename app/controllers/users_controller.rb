@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :find]
+  before_action :authenticate_user!, only: [:show, :find]
 
   def home
   end
