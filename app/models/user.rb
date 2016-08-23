@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     friendship || inverse_friendship
   end
 
-  def resolve_friendship_with(user_id)
+  def destroy_friendship_with(user_id)
     if friendship = self.friendships_of_from_user.find_by(to_user_id: user_id)
       friendship.destroy
     elsif inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user_id)

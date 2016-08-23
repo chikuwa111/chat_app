@@ -12,7 +12,7 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    current_user.resolve_friendship_with(params[:id])
+    current_user.destroy_friendship_with(params[:id])
     flash[:notice] = "Successfully resolved friendship."
     redirect_to root_url
   end
