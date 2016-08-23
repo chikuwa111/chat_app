@@ -39,7 +39,7 @@ class UsersBox extends React.Component {
     form.submit()
   }
   render() {
-    const users = this.state.users.map((user, index) => {
+    const users = this.state.users.map(user => {
       return (
         <li key={ user.id } className='user-box__item'>
           <div

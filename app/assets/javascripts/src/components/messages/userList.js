@@ -71,7 +71,7 @@ class UserList extends React.Component {
     //   return 0
     // })
 
-    const friends = this.state.friendList.map((friend, index) => {
+    const friends = this.state.friendList.map(friend => {
       // const date = Utils.getNiceDate(message.lastMessage.timestamp)
       //
       // var statusIcon
@@ -125,7 +125,7 @@ class UserList extends React.Component {
         <li
           onClick={ this.changeOpenChat.bind(this, friend.id)}
           className={ itemClasses }
-          key={ index }
+          key={ friend.id }
         >
           <div className='user-list__item__picture'>
           </div>
