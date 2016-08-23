@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import classNames from 'classnames'
-// import Utils from '../../utils'
+import Utils from '../../lib/utils'
 import MessagesStore from '../../stores/messages'
 // import UsersStore from '../../stores/user'
 import MessagesAction from '../../actions/messages'
@@ -47,17 +47,8 @@ class UserList extends React.Component {
   }
   resolveFriendship(user_id) {
     if (confirm('Are you sure?')) {
-      var form = document.createElement('form')
-      document.body.appendChild(form)
-      var input = document.createElement('input')
-      input.setAttribute('type', 'hidden')
-      input.setAttribute('name', '_method')
-      input.setAttribute('value', 'DELETE')
-      form.appendChild(input)
       const actionPath = '/friendships/' + user_id
-      form.setAttribute('action', actionPath)
-      form.setAttribute('method', 'post')
-      form.submit()
+      Utils.delete(actionPath)
     }
   }
   render() {
