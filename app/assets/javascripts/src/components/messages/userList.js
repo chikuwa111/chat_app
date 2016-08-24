@@ -1,9 +1,7 @@
 import React from 'react'
-import _ from 'lodash'
 import classNames from 'classnames'
 import Utils from '../../lib/utils'
 import MessagesStore from '../../stores/messages'
-// import UsersStore from '../../stores/user'
 import MessagesAction from '../../actions/messages'
 
 class UserList extends React.Component {
@@ -17,22 +15,9 @@ class UserList extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
-    const friends = MessagesStore.getFriends()
-    const friendList = []
-    _.each(friends, (friend) => {
-      // const messagesLength = message.messages.length
-      friendList.push(friend)
-      // friendList.push({
-      //   // lastMessage: message.messages[messagesLength - 1],
-      //   // lastAccess: message.lastAccess,
-      //   name: friend.name,
-      //   id: friend.id,
-      //   picture: friend.picture,
-      // })
-    })
     return {
       openChatID: MessagesStore.getOpenChatUserID(),
-      friendList: friendList,
+      friendList: MessagesStore.getFriends(),
     }
   }
   componentWillMount() {
