@@ -9,13 +9,11 @@
     bottom: 0;
     width: 45%;
     overflow-y: auto;
-    background-color: rgba(0,0,0,0.05);
-    border-radius: 30px;
   }
 
   &__item {
     &__contents {
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.08);
       height: 70px;
       padding: 0 15px;
       margin-bottom: 10px;
