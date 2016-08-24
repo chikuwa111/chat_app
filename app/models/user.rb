@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 
   def friend?(user)
     friendship = self.friendships_of_from_user.find_by(to_user_id: user.id)
-    inverse_friendship = user.friendships_of_from_user.find_by(to_user_id: self.id)
+    inverse_friendship = self.friendships_of_to_user.find_by(to_user_id: user.id)
     friendship || inverse_friendship
   end
 
