@@ -34,7 +34,7 @@ class MessagesBox extends React.Component {
     // const messagesLength = this.state.messages.length
     // const currentUserID = UsersStore.user.id
 
-    const messages = this.state.messages.map((message, index) => {
+    const messages = this.state.messages.map(message => {
       const messageClasses = classNames({
         'message-box__item': true,
         'message-box__item--from-current': message.from_user_id !== MessagesStore.getOpenChatUserID(),
@@ -45,7 +45,7 @@ class MessagesBox extends React.Component {
       // <li key={ message.timestamp + '-' + message.from } className={ messageClasses }>
       if (!message.image) {
         return (
-          <li key={ index } className={ messageClasses }>
+          <li key={ message.id } className={ messageClasses }>
             <div className='message-box__item__contents'>
               { message.contents }
             </div>
@@ -54,7 +54,7 @@ class MessagesBox extends React.Component {
       } else {
         const filePath = 'message_image/' + message.image
         return (
-          <li key={ index } className={ messageClasses }>
+          <li key={ message.id } className={ messageClasses }>
             <div className='message-box__item__contents'>
               <img src={ filePath } />
             </div>

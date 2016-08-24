@@ -1,9 +1,7 @@
 import React from 'react'
-import _ from 'lodash'
 import classNames from 'classnames'
-// import Utils from '../../utils'
+import Utils from '../../lib/utils'
 import MessagesStore from '../../stores/messages'
-// import UsersStore from '../../stores/user'
 import MessagesAction from '../../actions/messages'
 
 class UserList extends React.Component {
@@ -17,20 +15,9 @@ class UserList extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
-    const friends = MessagesStore.getFriends()
-    const friendList = []
-    _.each(friends, (friend) => {
-      // const messagesLength = message.messages.length
-      friendList.push({
-        // lastMessage: message.messages[messagesLength - 1],
-        // lastAccess: message.lastAccess,
-        name: friend.name,
-        id: friend.id,
-      })
-    })
     return {
       openChatID: MessagesStore.getOpenChatUserID(),
-      friendList: friendList,
+      friendList: MessagesStore.getFriends(),
     }
   }
   componentWillMount() {
@@ -45,19 +32,10 @@ class UserList extends React.Component {
   changeOpenChat(id) {
     MessagesAction.changeOpenChat(id)
   }
-  resolveFriendship(user_id) {
+  destroyFriendship(user_id) {
     if (confirm('Are you sure?')) {
-      var form = document.createElement('form')
-      document.body.appendChild(form)
-      var input = document.createElement('input')
-      input.setAttribute('type', 'hidden')
-      input.setAttribute('name', '_method')
-      input.setAttribute('value', 'DELETE')
-      form.appendChild(input)
       const actionPath = '/friendships/' + user_id
-      form.setAttribute('action', actionPath)
-      form.setAttribute('method', 'post')
-      form.submit()
+      Utils.delete(actionPath)
     }
   }
   render() {
@@ -71,7 +49,7 @@ class UserList extends React.Component {
     //   return 0
     // })
 
-    const friends = this.state.friendList.map((friend, index) => {
+    const friends = this.state.friendList.map(friend => {
       // const date = Utils.getNiceDate(message.lastMessage.timestamp)
       //
       // var statusIcon
@@ -125,14 +103,15 @@ class UserList extends React.Component {
         <li
           onClick={ this.changeOpenChat.bind(this, friend.id)}
           className={ itemClasses }
-          key={ index }
+          key={ friend.id }
         >
           <div className='user-list__item__picture'>
+            <img src={ friend.picture ? '/user_image/' + friend.picture : '/default_user_image/default.png'} />
           </div>
           <div className='user-list__item__details'>
             <h4 className='user-list__item__name'>
               { friend.name } |
-              <a href='#' onClick={ this.resolveFriendship.bind(this, friend.id) }> delete</a>
+              <span className='delete' onClick={ this.destroyFriendship.bind(this, friend.id) }> delete</span>
               <abbr className='user-list__item__timestamp'>
               </abbr>
             </h4>

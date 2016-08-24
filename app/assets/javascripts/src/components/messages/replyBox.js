@@ -53,6 +53,7 @@ class ReplyBox extends React.Component {
           onChange={ this.updateValue }
           className='reply-box__input'
           placeholder='Type message to reply..'
+          disabled={ MessagesStore.getOpenChatUserID() === 0 }
         />
         <span className='reply-box__tip'>
           Press <span className='reply-box__tip__button'>Enter</span> to send
@@ -60,6 +61,7 @@ class ReplyBox extends React.Component {
         <input
           type='file'
           accept='.jpg,.gif,.png,image/gif,image/jpeg,image/png'
+          disabled={ MessagesStore.getOpenChatUserID() === 0 }
           onChange={ this.updateImage }
         />
       </div>

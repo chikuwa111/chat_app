@@ -1,6 +1,5 @@
 module Api
   class MessagesController < ApplicationController
-    protect_from_forgery :except => [:index, :create]
 
     def index
       @messages = current_user.messages.sort_by{|message| message.id}
@@ -13,7 +12,7 @@ module Api
                               to_user_id: params[:to_user_id])
       file = params[:image]
       if !file.nil?
-        file_name =  Time.now().to_s + file.original_filename
+        file_name =  Time.now().to_i.to_s + file.original_filename
         File.open("public/message_image/#{file_name}", 'wb') {
           |f| f.write(file.read)
         }

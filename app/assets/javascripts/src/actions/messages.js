@@ -1,10 +1,11 @@
 import Dispatcher from '../dispatcher'
 import request from 'superagent'
+import {APIEndpoints, ActionTypes, CSRFToken} from '../constants/app'
 
 export default {
   changeOpenChat(id) {
     Dispatcher.handleViewAction({
-      type: 'updateOpenChatID',
+      type: ActionTypes.UPDATE_OPEN_CHAT_ID,
       id: id,
     })
   },
@@ -12,13 +13,13 @@ export default {
   getMessageFromDB() {
     return new Promise((resolve, reject) => {
       request
-      .get('/api/messages')
+      .get(APIEndpoints.MESSAGES)
       .end((error, res) => {
         if (!error && res.status === 200) {
           const json = JSON.parse(res.text)
           resolve(json)
           Dispatcher.handleServerAction({
-            type: 'getMessageFromDB',
+            type: ActionTypes.LOAD_MESSAGES,
             json: json,
           })
         } else {
@@ -31,14 +32,15 @@ export default {
   sendMessageToDB(message, id) {
     return new Promise((resolve, reject) => {
       request
-      .post('/api/messages.json')
+      .post(APIEndpoints.MESSAGES)
+      .set('X-CSRF-Token', CSRFToken())
       .send({contents: message,
             to_user_id: id})
       .end((error, res) => {
         if (!error && res.ok) {
           const json = JSON.parse(res.text)
           Dispatcher.handleViewAction({
-            type: 'sendMessageToDB',
+            type: ActionTypes.SAVE_MESSAGE,
             json: json,
           })
         } else {
@@ -51,13 +53,13 @@ export default {
   getFriendFromDB() {
     return new Promise((resolve, reject) => {
       request
-      .get('/api/friends')
+      .get(APIEndpoints.FRIENDS)
       .end((error, res) => {
         if (!error && res.status === 200) {
           const json = JSON.parse(res.text)
           resolve(json)
           Dispatcher.handleServerAction({
-            type: 'getFriendFromDB',
+            type: ActionTypes.LOAD_FRIENDS,
             json: json,
           })
         } else {
@@ -70,7 +72,8 @@ export default {
   sendImageToDB(file, to_user_id) {
     return new Promise((resolve, reject) => {
       request
-      .post('/api/messages.json')
+      .post(APIEndpoints.MESSAGES)
+      .set('X-CSRF-Token', CSRFToken())
       .field('contents', 'image')
       .field('to_user_id', to_user_id)
       .attach('image', file)
@@ -79,7 +82,7 @@ export default {
           const json = JSON.parse(res.text)
           resolve(json)
           Dispatcher.handleServerAction({
-            type: 'sendImageToDB',
+            type: ActionTypes.SAVE_IMAGE_CHAT,
             json: json,
           })
         } else {

@@ -19,11 +19,35 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :rememberable, :validatable
 
+  def set_image(file)
+    if !file.nil?
+      file_name = Time.now().to_i.to_s + file.original_filename
+      File.open("public/user_image/#{file_name}", 'wb') {
+        |f| f.write(file.read)
+      }
+      self.picture = file_name
+    end
+  end
+
   def friends
     friends_of_from_user + friends_of_to_user
   end
 
   def messages
     received_messages + sent_messages
+  end
+
+  def friend?(user)
+    friendship = self.friendships_of_from_user.find_by(to_user_id: user.id)
+    inverse_friendship = self.friendships_of_to_user.find_by(to_user_id: user.id)
+    friendship || inverse_friendship
+  end
+
+  def destroy_friendship_with(user_id)
+    if friendship = self.friendships_of_from_user.find_by(to_user_id: user_id)
+      friendship.destroy
+    elsif inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user_id)
+      inverse_friendship.destroy
+    end
   end
 end

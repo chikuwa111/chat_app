@@ -1,21 +1,13 @@
 class UsersController < ApplicationController
-  before_action :logged_in, only: [:index, :find]
+  before_action :authenticate_user!, only: [:show, :find]
 
   def home
   end
 
-  def index
+  def show
+    @user = User.find(params[:id])
   end
 
   def find
   end
-
-  private
-
-    def logged_in
-      if !(user_signed_in?)
-        flash[:alert] = "You need to login."
-        redirect_to new_user_session_url
-      end
-    end
 end

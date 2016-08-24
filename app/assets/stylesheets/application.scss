@@ -45,6 +45,15 @@ nav {
   }
 }
 
+// toppage
+
+#toppage {
+  width: 100vw;
+  height: 89vh;
+  background-image: url("http://1.bp.blogspot.com/-JldqHt5t8WQ/V5NEwWgkeyI/AAAAAAAA8ks/ehcRd-wfE2YRGL10uTG9iaYnjQ4cPMiNgCLcB/s800/war_juusouhohei_phalanx.png");
+  background-size: cover;
+}
+
 // form
 
 #user-form {
@@ -75,6 +84,23 @@ nav {
     @extend .has-error;
     .form-control {
       color: $state-danger-text;
+    }
+  }
+}
+
+// user-detail
+
+#user-detail {
+  text-align: center;
+  .user-image {
+    width: 200px;
+    height: 200px;
+    border: 0.5px dotted rgba(0,0,0,0.5);
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    img {
+      width: inherit;
     }
   }
 }

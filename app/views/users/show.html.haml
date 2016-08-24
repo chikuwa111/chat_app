@@ -1,0 +1,12 @@
+%section#user-detail.scroll-page.bg-white.jumbotron.col-md-6.col-md-offset-3
+  %div.user-image
+    = image_for(@user.picture)
+  %h3 #{@user.name}
+  %h3 #{@user.email}
+  %br
+  - if @user == current_user
+    = link_to "Edit Profile", edit_user_registration_path, class: "btn btn-primary btn-lg", data: {no_turbolink: true}
+  - else
+    = form_tag("/friendships", method: "post") do
+      = hidden_field_tag :to_user_id, @user.id
+      = submit_tag "Start Chat!", class: "btn btn-primary btn-lg"
