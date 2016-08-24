@@ -78,3 +78,20 @@ nav {
     }
   }
 }
+
+// user-detail
+
+#user-detail {
+  text-align: center;
+  .user-image {
+    width: 200px;
+    height: 200px;
+    border: 0.5px dotted rgba(0,0,0,0.5);
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    img {
+      width: inherit;
+    }
+  }
+}

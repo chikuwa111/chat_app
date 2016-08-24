@@ -9,33 +9,69 @@
     bottom: 0;
     width: 45%;
     overflow-y: auto;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 30px;
   }
 
   &__item {
     &__contents {
-      background: rgba(0, 0, 0, 0.08);
-      height: 50px;
-      font-size: 20px;
-      font-weight: bold;
-      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.2);
+      height: 70px;
+      padding: 0 15px;
       margin-bottom: 10px;
       text-align: center;
       cursor: pointer;
-      &:hover {
-        background: rgba(0, 0, 0, 0.2)
-      }
+      border-radius: 10px;
+    }
+    &__name {
+      font-size: 20px;
+      font-weight: bold;
+      position: relative;
+      top: 20px;
     }
     &__picture {
       position: relative;
-      top: -5px;
+      top: 5px;
       left: 5px;
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       overflow: hidden;
       float: left;
+      margin-bottom: 5px;
       img {
         width: inherit;
+      }
+    }
+    &__button {
+      float: right;
+      font-size: 15px;
+      font-weight: bold;
+      height: 70px;
+    }
+    &__profile {
+      color: black;
+      padding: 8px 5px;
+      background-color: orange;
+      cursor: pointer;
+      position: relative;
+      top: 6px;
+      border-radius: 3px;
+      &:hover {
+        background-color: peru;
+        text-decoration: none;
+        color: black;
+      }
+    }
+    &__chat {
+      padding: 8px 10px;
+      background-color: #87cefa;
+      cursor: pointer;
+      position: relative;
+      top: 17px;
+      border-radius: 3px;
+      &:hover {
+        background-color: #6495ed;
       }
     }
   }

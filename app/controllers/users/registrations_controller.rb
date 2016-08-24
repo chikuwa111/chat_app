@@ -1,6 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-before_filter :configure_sign_up_params, only: [:create]
-before_filter :configure_account_update_params, only: [:update]
+  before_filter :configure_sign_up_params, only: [:create]
+  before_filter :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   # def new
@@ -20,8 +20,8 @@ before_filter :configure_account_update_params, only: [:update]
   # PUT /resource
   def update
     file = params[:user][:picture]
-    @user.set_image(file)
-    if @user.update_with_password(user_params)
+    current_user.set_image(file)
+    if current_user.update_with_password(user_params)
       flash[:notice] = 'Successfully updated!'
       respond_with resource, location: after_update_path_for(resource)
     else
@@ -66,7 +66,7 @@ before_filter :configure_account_update_params, only: [:update]
     # end
 
     def after_update_path_for(resource)
-      users_path
+      user_path(current_user)
     end
 
   private

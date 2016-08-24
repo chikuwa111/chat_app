@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   def home
   end
 
-  def index
+  def show
+    @user = User.find(params[:id])
   end
 
   def find
