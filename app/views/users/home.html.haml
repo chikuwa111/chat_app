@@ -1,6 +1,10 @@
-.center.jumbotron
+#toppage
   %h1 Welcome to Chat App
   %h2
     This is the home page for the training.
-  = link_to "Sign up now!", new_user_registration_path, class: "btn btn-lg btn-primary"
-  = link_to "Login now!", new_user_session_path, class: "btn btn-lg btn-warning"
+  - if user_signed_in?
+    = link_to "Find friends!", users_find_path, class: "btn btn-lg btn-warning", data: {no_turbolink: true}
+    = link_to "Start chat!", messages_path, class: "btn btn-lg btn-primary", data: {no_turbolink: true}
+  - else
+    = link_to "Sign up now!", new_user_registration_path, class: "btn btn-lg btn-primary"
+    = link_to "Login now!", new_user_session_path, class: "btn btn-lg btn-warning"
