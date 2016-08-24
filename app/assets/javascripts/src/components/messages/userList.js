@@ -21,13 +21,14 @@ class UserList extends React.Component {
     const friendList = []
     _.each(friends, (friend) => {
       // const messagesLength = message.messages.length
-      friendList.push({
-        // lastMessage: message.messages[messagesLength - 1],
-        // lastAccess: message.lastAccess,
-        name: friend.name,
-        id: friend.id,
-        picture: friend.picture,
-      })
+      friendList.push(friend)
+      // friendList.push({
+      //   // lastMessage: message.messages[messagesLength - 1],
+      //   // lastAccess: message.lastAccess,
+      //   name: friend.name,
+      //   id: friend.id,
+      //   picture: friend.picture,
+      // })
     })
     return {
       openChatID: MessagesStore.getOpenChatUserID(),
