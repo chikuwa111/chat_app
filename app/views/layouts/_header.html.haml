@@ -11,7 +11,7 @@
               Account
               %b.caret
             %ul.dropdown-menu
-              %li= link_to "Profile", user_path(current_user)
+              %li= link_to "Profile", user_path(current_user), data: {no_turbolink: true}
               %li= link_to "Settings", edit_user_registration_path, data: {no_turbolink: true}
               %li.divider
               %li
