@@ -92,7 +92,7 @@ class UserList extends React.Component {
         'user-list__item': true,
         'clear': true,
         // 'user-list__item--new': isNewMessage,
-        'user-list__item--active': MessagesStore.getOpenChatUserID() === friend.id,
+        'user-list__item--active': this.state.openChatID === friend.id,
       })
       //
       // return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import MessagesStore from '../../stores/messages'
+// import MessagesStore from '../../stores/messages'
 import MessagesAction from '../../actions/messages'
 
 class ReplyBox extends React.Component {
@@ -11,6 +11,7 @@ class ReplyBox extends React.Component {
 
   static get propTypes() {
     return {
+      openChatID: React.PropTypes.number.isRequired,
     }
   }
 
@@ -19,6 +20,7 @@ class ReplyBox extends React.Component {
     this.state = this.initialState
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.updateValue = this.updateValue.bind(this)
+    this.updateImage = this.updateImage.bind(this)
   }
   get initialState() {
     return {
@@ -28,7 +30,7 @@ class ReplyBox extends React.Component {
   handleKeyDown(e) {
     if (e.keyCode === 13) {
       // MessagesAction.sendMessage(MessagesStore.getOpenChatUserID(), this.state.value)
-      MessagesAction.sendMessageToDB(this.state.value, MessagesStore.getOpenChatUserID())
+      MessagesAction.sendMessageToDB(this.state.value, this.props.openChatID)
       this.setState({
         value: '',
       })
@@ -42,7 +44,7 @@ class ReplyBox extends React.Component {
   updateImage(e) {
     if (e.target.files.length === 0) return
     const file = e.target.files[0]
-    MessagesAction.sendImageToDB(file, MessagesStore.getOpenChatUserID())
+    MessagesAction.sendImageToDB(file, this.props.openChatID)
   }
   render() {
     return (
@@ -53,7 +55,7 @@ class ReplyBox extends React.Component {
           onChange={ this.updateValue }
           className='reply-box__input'
           placeholder='Type message to reply..'
-          disabled={ MessagesStore.getOpenChatUserID() === 0 }
+          disabled={ this.props.openChatID === 0 }
         />
         <span className='reply-box__tip'>
           Press <span className='reply-box__tip__button'>Enter</span> to send
@@ -61,7 +63,7 @@ class ReplyBox extends React.Component {
         <input
           type='file'
           accept='.jpg,.gif,.png,image/gif,image/jpeg,image/png'
-          disabled={ MessagesStore.getOpenChatUserID() === 0 }
+          disabled={ this.props.openChatID === 0 }
           onChange={ this.updateImage }
         />
       </div>
