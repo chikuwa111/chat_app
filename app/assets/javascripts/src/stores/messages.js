@@ -114,6 +114,18 @@ class ChatStore extends BaseStore {
   setFriends(array) {
     this.set('friends', array)
   }
+  getLastMessages() {
+    if (!this.get('lastMessages')) this.setLastMessages({})
+    return this.get('lastMessages')
+  }
+  setLastMessages(array) {
+    this.set('lastMessages', array)
+  }
+  setLastChat(id, message) {
+    let lastMessages = this.getLastMessages()
+    lastMessages[id] = message
+    this.setLastMessages(lastMessages)
+  }
 }
 const MessagesStore = new ChatStore()
 
@@ -148,6 +160,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     case ActionTypes.SAVE_MESSAGE:
       if (action.json.contents !== '') {
         MessagesStore.getAllChats().push(action.json)
+        MessagesStore.setLastChat(action.to_user_id, action.json)
       }
       MessagesStore.emitChange()
       break
@@ -159,6 +172,12 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
 
     case ActionTypes.SAVE_IMAGE_CHAT:
       MessagesStore.getAllChats().push(action.json)
+      MessagesStore.setLastChat(action.to_user_id, action.json)
+      MessagesStore.emitChange()
+      break
+
+    case ActionTypes.LOAD_LAST_MESSAGES:
+      MessagesStore.setLastMessages(action.json)
       MessagesStore.emitChange()
       break
 

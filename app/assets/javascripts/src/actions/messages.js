@@ -29,19 +29,20 @@ export default {
     })
   },
 
-  sendMessageToDB(message, id) {
+  sendMessageToDB(message, to_user_id) {
     return new Promise((resolve, reject) => {
       request
       .post(APIEndpoints.MESSAGES)
       .set('X-CSRF-Token', CSRFToken())
       .send({contents: message,
-            to_user_id: id})
+            to_user_id: to_user_id})
       .end((error, res) => {
         if (!error && res.ok) {
           const json = JSON.parse(res.text)
           Dispatcher.handleViewAction({
             type: ActionTypes.SAVE_MESSAGE,
             json: json,
+            to_user_id: to_user_id,
           })
         } else {
           console.error(error)
@@ -74,7 +75,7 @@ export default {
       request
       .post(APIEndpoints.MESSAGES)
       .set('X-CSRF-Token', CSRFToken())
-      .field('contents', 'image')
+      .field('contents', 'sent image')
       .field('to_user_id', to_user_id)
       .attach('image', file)
       .end((error, res) => {
@@ -84,9 +85,29 @@ export default {
           Dispatcher.handleServerAction({
             type: ActionTypes.SAVE_IMAGE_CHAT,
             json: json,
+            to_user_id: to_user_id,
           })
         } else {
           console.error(error)
+        }
+      })
+    })
+  },
+
+  getLastMessagesFromDB() {
+    return new Promise((resolve, reject) => {
+      request
+      .get(APIEndpoints.LAST_MESSAGES)
+      .end((error, res) => {
+        if (!error && res.status === 200) {
+          const json = JSON.parse(res.text)
+          resolve(json)
+          Dispatcher.handleServerAction({
+            type: ActionTypes.LOAD_LAST_MESSAGES,
+            json: json,
+          })
+        } else {
+          reject(res)
         }
       })
     })

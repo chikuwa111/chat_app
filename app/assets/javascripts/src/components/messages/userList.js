@@ -12,12 +12,14 @@ class UserList extends React.Component {
   }
   get initialState() {
     MessagesAction.getFriendFromDB()
+    MessagesAction.getLastMessagesFromDB()
     return this.getStateFromStore()
   }
   getStateFromStore() {
     return {
       openChatID: MessagesStore.getOpenChatUserID(),
       friendList: MessagesStore.getFriends(),
+      lastMessages: MessagesStore.getLastMessages(),
     }
   }
   componentWillMount() {
@@ -39,6 +41,15 @@ class UserList extends React.Component {
     }
   }
   render() {
+    this.state.friendList.sort((a, b) => {
+      if (this.state.lastMessages[a.id].created_at > this.state.lastMessages[b.id].created_at) {
+        return -1
+      }
+      if (this.state.lastMessages[a.id].created_at < this.state.lastMessages[b.id].created_at) {
+        return 1
+      }
+      return 0
+    })
     // this.state.messageList.sort((a, b) => {
     //   if (a.lastMessage.timestamp > b.lastMessage.timestamp) {
     //     return -1
@@ -50,6 +61,13 @@ class UserList extends React.Component {
     // })
 
     const friends = this.state.friendList.map(friend => {
+      const date = this.state.lastMessages[friend.id].created_at
+      let statusIcon
+      if (this.state.lastMessages[friend.id].to_user_id === friend.id) {
+        statusIcon = (
+          <i className='fa fa-reply user-list__item__icon' />
+        )
+      }
       // const date = Utils.getNiceDate(message.lastMessage.timestamp)
       //
       // var statusIcon
@@ -113,9 +131,11 @@ class UserList extends React.Component {
               { friend.name } |
               <span className='delete' onClick={ this.destroyFriendship.bind(this, friend.id) }> delete</span>
               <abbr className='user-list__item__timestamp'>
+                { date }
               </abbr>
             </h4>
             <span className='user-list__item__message'>
+              { statusIcon } { this.state.lastMessages[friend.id].contents }
             </span>
           </div>
         </li>

@@ -50,4 +50,13 @@ class User < ActiveRecord::Base
       inverse_friendship.destroy
     end
   end
+
+  def friendship_with(user_id)
+    if friendship = self.friendships_of_from_user.find_by(to_user_id: user_id)
+      return friendship
+    else
+      inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user_id)
+      return inverse_friendship
+    end
+  end
 end

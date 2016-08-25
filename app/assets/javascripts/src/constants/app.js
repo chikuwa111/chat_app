@@ -6,6 +6,7 @@ export const APIEndpoints = {
   MESSAGES: APIRoot + '/messages',
   USERS: APIRoot + '/users',
   FRIENDS: APIRoot + '/friends',
+  LAST_MESSAGES: APIRoot + '/messages/last',
 }
 
 export const ActionTypes = keyMirror({
@@ -15,6 +16,7 @@ export const ActionTypes = keyMirror({
   UPDATE_OPEN_CHAT_ID: null,
   SAVE_IMAGE_CHAT: null,
   LOAD_FRIENDS: null,
+  LOAD_LAST_MESSAGES: null,
 
   // user
   LOAD_USERS: null,
