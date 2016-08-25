@@ -7,9 +7,8 @@ module Api
     end
 
     def create
-      @message = Message.new(contents: params[:contents],
-                              from_user_id: current_user.id,
-                              to_user_id: params[:to_user_id])
+      @message = Message.new(message_params)
+      @message.from_user_id = current_user.id
       file = params[:image]
       if !file.nil?
         file_name =  Time.now().to_i.to_s + file.original_filename
@@ -25,7 +24,7 @@ module Api
     private
 
       def message_params
-        params.require(:message).permit(:contents, :to_user_id)
+        params.require(:message).permit(:contents, :to_user_id, :image)
       end
 
   end
