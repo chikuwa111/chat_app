@@ -156,7 +156,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     case ActionTypes.SAVE_MESSAGE:
       if (action.json.contents !== '') {
         MessagesStore.getAllChats().push(action.json)
-        MessagesStore.setLastChat(action.to_user_id, action.json)
+        MessagesStore.setLastChat(action.json.to_user_id, action.json)
       }
       MessagesStore.emitChange()
       break
@@ -168,7 +168,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
 
     case ActionTypes.SAVE_IMAGE_CHAT:
       MessagesStore.getAllChats().push(action.json)
-      MessagesStore.setLastChat(action.to_user_id, action.json)
+      MessagesStore.setLastChat(action.json.to_user_id, action.json)
       MessagesStore.emitChange()
       break
 

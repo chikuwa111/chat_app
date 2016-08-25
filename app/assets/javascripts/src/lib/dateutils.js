@@ -1,4 +1,4 @@
-const Utils = {
+const DateUtils = {
   getShortDate(timestamp) {
     const distance = Math.round((+new Date() - timestamp) / 60000)
     const date = new Date(timestamp)
@@ -71,4 +71,4 @@ const Utils = {
   },
 }
 
-export default Utils
+export default DateUtils

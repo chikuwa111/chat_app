@@ -35,14 +35,14 @@ export default {
       .post(APIEndpoints.MESSAGES)
       .set('X-CSRF-Token', CSRFToken())
       .send({contents: message,
-            to_user_id: to_user_id})
+            to_user_id: to_user_id,
+            timestamp: Date.now()})
       .end((error, res) => {
         if (!error && res.ok) {
           const json = JSON.parse(res.text)
           Dispatcher.handleViewAction({
             type: ActionTypes.SAVE_MESSAGE,
             json: json,
-            to_user_id: to_user_id,
           })
         } else {
           console.error(error)
@@ -77,6 +77,7 @@ export default {
       .set('X-CSRF-Token', CSRFToken())
       .field('contents', 'sent image')
       .field('to_user_id', to_user_id)
+      .field('timestamp', Date.now())
       .attach('image', file)
       .end((error, res) => {
         if (!error && res.ok) {
@@ -85,7 +86,6 @@ export default {
           Dispatcher.handleServerAction({
             type: ActionTypes.SAVE_IMAGE_CHAT,
             json: json,
-            to_user_id: to_user_id,
           })
         } else {
           console.error(error)

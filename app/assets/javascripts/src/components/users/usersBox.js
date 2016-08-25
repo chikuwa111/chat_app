@@ -28,7 +28,7 @@ class UsersBox extends React.Component {
     this.setState(this.getStateFromStore())
   }
   makeFriendsWith(id) {
-    const params = {'to_user_id': id}
+    const params = {'to_user_id': id, 'timestamp': Date.now()}
     Utils.post('/friendships', params)
   }
   render() {

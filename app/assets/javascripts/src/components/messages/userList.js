@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Utils from '../../lib/utils'
+import DateUtils from '../../lib/dateutils'
 import MessagesStore from '../../stores/messages'
 import MessagesAction from '../../actions/messages'
 
@@ -42,10 +43,10 @@ class UserList extends React.Component {
   }
   render() {
     this.state.friendList.sort((a, b) => {
-      if (this.state.lastMessages[a.id].created_at > this.state.lastMessages[b.id].created_at) {
+      if (this.state.lastMessages[a.id].timestamp > this.state.lastMessages[b.id].timestamp) {
         return -1
       }
-      if (this.state.lastMessages[a.id].created_at < this.state.lastMessages[b.id].created_at) {
+      if (this.state.lastMessages[a.id].timestamp < this.state.lastMessages[b.id].timestamp) {
         return 1
       }
       return 0
@@ -61,7 +62,7 @@ class UserList extends React.Component {
     // })
 
     const friends = this.state.friendList.map(friend => {
-      const date = this.state.lastMessages[friend.id].created_at
+      const date = DateUtils.getNiceDate(this.state.lastMessages[friend.id].timestamp)
       let statusIcon
       if (this.state.lastMessages[friend.id].to_user_id === friend.id) {
         statusIcon = (

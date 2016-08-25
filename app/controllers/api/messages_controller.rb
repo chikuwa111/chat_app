@@ -38,7 +38,7 @@ module Api
 
         if !last_message
           last_message = {"contents": "", "to_user_id": 0,
-                          "created_at": current_user.friendship_with(f.id).created_at}
+                          "timestamp": current_user.friendship_with(f.id).timestamp}
         end
         @last_messages[f.id] = last_message
       end
@@ -49,7 +49,7 @@ module Api
     private
 
       def message_params
-        params.permit(:contents, :to_user_id, :image)
+        params.permit(:contents, :to_user_id, :image, :timestamp)
       end
 
   end
