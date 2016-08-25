@@ -80,11 +80,7 @@ class ChatStore extends BaseStore {
   }
   getOpenChatUserID() {
     if (!this.get('openChatID')) {
-      if (MessagesStore.getFriends().length === 0) {
-        this.setOpenChatUserID(0)
-      } else {
-        this.setOpenChatUserID(MessagesStore.getFriends()[0]['id'])
-      }
+      this.setOpenChatUserID(0)
     }
     return this.get('openChatID')
   }
