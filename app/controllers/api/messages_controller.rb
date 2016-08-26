@@ -18,7 +18,7 @@ module Api
         @message.image = file_name
       end
       @message.save
-      render json: @message
+      render json: {message: @message, timestamp: @message.timestamp}
     end
 
     def last

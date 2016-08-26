@@ -59,4 +59,29 @@ class User < ActiveRecord::Base
       return inverse_friendship
     end
   end
+
+  def last_action_with(user)
+    if (m = Message.where("from_user_id = :user1 and to_user_id = :user2",
+                      user1: user.id, user2: self.id).last)
+      last_action = m
+    end
+
+    if (m = Message.where("from_user_id = :user1 and to_user_id = :user2",
+                      user1: self.id, user2: user.id).last)
+      if !last_action || last_action.id < m.id
+        last_action = m
+      end
+    end
+
+    if !last_action
+      last_action = user.friendship_with(self.id)
+    end
+
+    return last_action
+  end
+
+  def last_action_timestamp_with(user)
+    self.last_action_with(user).created_at.strftime('%Y/%m/%d %H:%M')
+  end
+
 end

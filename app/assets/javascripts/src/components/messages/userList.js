@@ -13,14 +13,14 @@ class UserList extends React.Component {
   }
   get initialState() {
     MessagesAction.getFriendFromDB()
-    MessagesAction.getLastActionsFromDB()
+    // MessagesAction.getLastActionsFromDB()
     return this.getStateFromStore()
   }
   getStateFromStore() {
     return {
       openChatID: MessagesStore.getOpenChatUserID(),
       friendList: MessagesStore.getFriends(),
-      lastActions: MessagesStore.getLastActions(),
+      // lastActions: MessagesStore.getLastActions(),
     }
   }
   componentWillMount() {
@@ -42,33 +42,33 @@ class UserList extends React.Component {
     }
   }
   render() {
-    this.state.friendList.sort((a, b) => {
-      if (this.state.lastActions[a.id].created_at > this.state.lastActions[b.id].created_at) {
-        return -1
-      }
-      if (this.state.lastActions[a.id].created_at < this.state.lastActions[b.id].created_at) {
-        return 1
-      }
-      return 0
-    })
-    // this.state.messageList.sort((a, b) => {
-    //   if (a.lastMessage.timestamp > b.lastMessage.timestamp) {
+    // this.state.friendList.sort((a, b) => {
+    //   if (this.state.lastActions[a.id].created_at > this.state.lastActions[b.id].created_at) {
     //     return -1
     //   }
-    //   if (a.lastMessage.timestamp < b.lastMessage.timestamp) {
+    //   if (this.state.lastActions[a.id].created_at < this.state.lastActions[b.id].created_at) {
     //     return 1
     //   }
     //   return 0
     // })
 
     const friends = this.state.friendList.map(friend => {
-      const date = this.state.lastActions[friend.id].created_at
+      const date = friend.last_action_timestamp
       let statusIcon
-      if (this.state.lastActions[friend.id].to_user_id === friend.id) {
-        statusIcon = (
-          <i className='fa fa-reply user-list__item__icon' />
-        )
+      if (friend.last_action.contents !== undefined) {
+        if (friend.last_action.to_user_id === friend.id) {
+          statusIcon = (
+            <i className='fa fa-reply user-list__item__icon' />
+          )
+        }
       }
+      // const date = this.state.lastActions[friend.id].created_at
+      // let statusIcon
+      // if (this.state.lastActions[friend.id].to_user_id === friend.id) {
+      //   statusIcon = (
+      //     <i className='fa fa-reply user-list__item__icon' />
+      //   )
+      // }
       // const date = Utils.getNiceDate(message.lastMessage.timestamp)
       //
       // var statusIcon
@@ -112,7 +112,7 @@ class UserList extends React.Component {
       //         </abbr>
       //       </h4>
       //       <span className='user-list__item__message'>
-      //         { statusIcon } { message.lastMessage.contents }
+      //         { statusIcon } { this.state.lastActions[friend.id].contents }
       //       </span>
       //     </div>
       //   </li>
@@ -136,7 +136,7 @@ class UserList extends React.Component {
               </abbr>
             </h4>
             <span className='user-list__item__message'>
-              { statusIcon } { this.state.lastActions[friend.id].contents }
+              { statusIcon } { friend.last_action.contents }
             </span>
           </div>
         </li>

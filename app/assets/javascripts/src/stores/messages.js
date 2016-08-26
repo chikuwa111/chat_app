@@ -2,6 +2,7 @@ import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
 import {ActionTypes} from '../constants/app'
 // import UsersStore from '../stores/user'
+import _ from 'lodash'
 
 // const messages = {
 //   2: {
@@ -117,10 +118,26 @@ class ChatStore extends BaseStore {
   setLastActions(array) {
     this.set('lastActions', array)
   }
-  updateLastAction(id, message) {
-    const lastActions = this.getLastActions()
-    lastActions[id] = message
-    this.setLastActions(lastActions)
+  // updateLastAction(message) {
+  //   const lastActions = this.getLastActions()
+  //   lastActions[message.to_user_id] = message
+  //   this.setLastActions(lastActions)
+  // }
+  updateLastAction(json) {
+    const lastActions = this.getFriends()
+    console.log('lastActions: ', lastActions)
+    const index = _.findIndex(lastActions, l => {
+      return l.id === json.message.to_user_id
+    })
+    const lastAction = lastActions.slice(index, index + 1)[0]
+    lastAction.last_action = json.message
+    lastAction.last_action_timestamp = json.timestamp
+    console.log('lastAction: ', lastAction)
+    lastActions.splice(index, index)
+    console.log('lastActions: ', lastActions)
+    lastActions.unshift(lastAction)
+    console.log('lastActions', lastActions)
+    this.setFriends(lastActions)
   }
 }
 const MessagesStore = new ChatStore()
@@ -155,8 +172,8 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
 
     case ActionTypes.SAVE_MESSAGE:
       if (action.json.contents !== '') {
-        MessagesStore.getAllChats().push(action.json)
-        MessagesStore.updateLastAction(action.json.to_user_id, action.json)
+        MessagesStore.getAllChats().push(action.json.message)
+        MessagesStore.updateLastAction(action.json)
       }
       MessagesStore.emitChange()
       break
@@ -167,8 +184,8 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
       break
 
     case ActionTypes.SAVE_IMAGE_CHAT:
-      MessagesStore.getAllChats().push(action.json)
-      MessagesStore.updateLastAction(action.json.to_user_id, action.json)
+      MessagesStore.getAllChats().push(action.json.message)
+      MessagesStore.updateLastAction(action.json)
       MessagesStore.emitChange()
       break
 
