@@ -11,14 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825053141) do
+ActiveRecord::Schema.define(version: 20160823060913) do
 
   create_table "friendships", force: :cascade do |t|
     t.integer  "from_user_id"
     t.integer  "to_user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "timestamp"
   end
 
   add_index "friendships", ["from_user_id", "to_user_id"], name: "index_friendships_on_from_user_id_and_to_user_id", unique: true
@@ -30,7 +29,6 @@ ActiveRecord::Schema.define(version: 20160825053141) do
     t.integer  "from_user_id"
     t.integer  "to_user_id"
     t.string   "image"
-    t.string   "timestamp"
   end
 
   create_table "users", force: :cascade do |t|

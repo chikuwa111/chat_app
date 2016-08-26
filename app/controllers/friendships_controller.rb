@@ -6,7 +6,7 @@ class FriendshipsController < ApplicationController
       redirect_to messages_url
       return
     end
-    current_user.friendships_of_from_user.create(to_user_id: user.id, timestamp: params[:timestamp])
+    current_user.friendships_of_from_user.create(to_user_id: user.id)
     flash[:notice] = "Successfully make friends with #{user.name}!"
     redirect_to messages_url
   end

@@ -35,8 +35,7 @@ export default {
       .post(APIEndpoints.MESSAGES)
       .set('X-CSRF-Token', CSRFToken())
       .send({contents: message,
-            to_user_id: to_user_id,
-            timestamp: Date.now()})
+            to_user_id: to_user_id})
       .end((error, res) => {
         if (!error && res.ok) {
           const json = JSON.parse(res.text)
@@ -77,7 +76,6 @@ export default {
       .set('X-CSRF-Token', CSRFToken())
       .field('contents', 'sent image')
       .field('to_user_id', to_user_id)
-      .field('timestamp', Date.now())
       .attach('image', file)
       .end((error, res) => {
         if (!error && res.ok) {
