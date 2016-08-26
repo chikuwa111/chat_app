@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Utils from '../../lib/utils'
-import DateUtils from '../../lib/dateutils'
+import DateUtils from '../../lib/date_utils'
 import MessagesStore from '../../stores/messages'
 import MessagesAction from '../../actions/messages'
 
