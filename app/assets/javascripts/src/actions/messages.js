@@ -50,7 +50,7 @@ export default {
     })
   },
 
-  getFriendFromDB() {
+  getFriendsDataFromDB() {
     return new Promise((resolve, reject) => {
       request
       .get(APIEndpoints.FRIENDS)
@@ -59,7 +59,7 @@ export default {
           const json = JSON.parse(res.text)
           resolve(json)
           Dispatcher.handleServerAction({
-            type: ActionTypes.LOAD_FRIENDS,
+            type: ActionTypes.LOAD_FRIENDS_DATA,
             json: json,
           })
         } else {
@@ -87,25 +87,6 @@ export default {
           })
         } else {
           console.error(error)
-        }
-      })
-    })
-  },
-
-  getLastActionsFromDB() {
-    return new Promise((resolve, reject) => {
-      request
-      .get(APIEndpoints.LAST_MESSAGES)
-      .end((error, res) => {
-        if (!error && res.status === 200) {
-          const json = JSON.parse(res.text)
-          resolve(json)
-          Dispatcher.handleServerAction({
-            type: ActionTypes.LOAD_LAST_ACTIONS,
-            json: json,
-          })
-        } else {
-          reject(res)
         }
       })
     })

@@ -21,30 +21,6 @@ module Api
       render json: {message: @message, timestamp: @message.timestamp}
     end
 
-    def last
-      @last_messages = {}
-      current_user.friends.each do |f|
-        if (m = Message.where("from_user_id = :user1 and to_user_id = :user2",
-                          user1: current_user.id, user2: f.id).last)
-          last_message = m
-        end
-
-        if (m = Message.where("from_user_id = :user1 and to_user_id = :user2",
-                          user1: f.id, user2: current_user.id).last)
-          if !last_message || last_message.id < m.id
-            last_message = m
-          end
-        end
-
-        if !last_message
-          last_message = current_user.friendship_with(f.id)
-        end
-        @last_messages[f.id] = last_message
-      end
-
-      render json: @last_messages.as_json()
-    end
-
     private
 
       def message_params

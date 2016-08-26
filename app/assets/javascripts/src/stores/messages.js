@@ -104,40 +104,29 @@ class ChatStore extends BaseStore {
   setChats(array) {
     this.set('messages', array)
   }
-  getFriends() {
-    if (!this.get('friends')) this.setFriends([])
-    return this.get('friends')
+  getFriendsData() {
+    if (!this.get('friends_data')) this.setFriendsData([])
+    return this.get('friends_data')
   }
-  setFriends(array) {
-    this.set('friends', array)
-  }
-  getLastActions() {
-    if (!this.get('lastActions')) this.setLastActions({})
-    return this.get('lastActions')
-  }
-  setLastActions(array) {
-    this.set('lastActions', array)
+  setFriendsData(array) {
+    this.set('friends_data', array)
   }
   // updateLastAction(message) {
   //   const lastActions = this.getLastActions()
   //   lastActions[message.to_user_id] = message
   //   this.setLastActions(lastActions)
   // }
-  updateLastAction(json) {
-    const lastActions = this.getFriends()
-    console.log('lastActions: ', lastActions)
+  updateFriendsData(json) {
+    const lastActions = this.getFriendsData()
     const index = _.findIndex(lastActions, l => {
       return l.id === json.message.to_user_id
     })
     const lastAction = lastActions.slice(index, index + 1)[0]
     lastAction.last_action = json.message
     lastAction.last_action_timestamp = json.timestamp
-    console.log('lastAction: ', lastAction)
     lastActions.splice(index, index)
-    console.log('lastActions: ', lastActions)
     lastActions.unshift(lastAction)
-    console.log('lastActions', lastActions)
-    this.setFriends(lastActions)
+    this.setFriendsData(lastActions)
   }
 }
 const MessagesStore = new ChatStore()
@@ -173,24 +162,19 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     case ActionTypes.SAVE_MESSAGE:
       if (action.json.contents !== '') {
         MessagesStore.getAllChats().push(action.json.message)
-        MessagesStore.updateLastAction(action.json)
+        MessagesStore.updateFriendsData(action.json)
       }
       MessagesStore.emitChange()
       break
 
-    case ActionTypes.LOAD_FRIENDS:
-      MessagesStore.setFriends(action.json)
+    case ActionTypes.LOAD_FRIENDS_DATA:
+      MessagesStore.setFriendsData(action.json)
       MessagesStore.emitChange()
       break
 
     case ActionTypes.SAVE_IMAGE_CHAT:
       MessagesStore.getAllChats().push(action.json.message)
-      MessagesStore.updateLastAction(action.json)
-      MessagesStore.emitChange()
-      break
-
-    case ActionTypes.LOAD_LAST_ACTIONS:
-      MessagesStore.setLastActions(action.json)
+      MessagesStore.updateFriendsData(action.json)
       MessagesStore.emitChange()
       break
 

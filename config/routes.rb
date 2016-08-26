@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   namespace :api, { format: 'json'} do
     resources :messages, only: [:index, :create]
-    get 'messages/last' => 'messages#last' 
+    get 'messages/last' => 'messages#last'
     get 'users' => 'users#index'
-    get 'friends' => 'users#friend'
+    get 'friends' => 'users#friends_data'
   end
 end

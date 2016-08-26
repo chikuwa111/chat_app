@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import Utils from '../../lib/utils'
-// import DateUtils from '../../lib/date_utils'
 import MessagesStore from '../../stores/messages'
 import MessagesAction from '../../actions/messages'
 
@@ -12,15 +11,13 @@ class UserList extends React.Component {
     this.state = this.initialState
   }
   get initialState() {
-    MessagesAction.getFriendFromDB()
-    // MessagesAction.getLastActionsFromDB()
+    MessagesAction.getFriendsDataFromDB()
     return this.getStateFromStore()
   }
   getStateFromStore() {
     return {
       openChatID: MessagesStore.getOpenChatUserID(),
-      friendList: MessagesStore.getFriends(),
-      // lastActions: MessagesStore.getLastActions(),
+      friendDataList: MessagesStore.getFriendsData(),
     }
   }
   componentWillMount() {
@@ -42,33 +39,16 @@ class UserList extends React.Component {
     }
   }
   render() {
-    // this.state.friendList.sort((a, b) => {
-    //   if (this.state.lastActions[a.id].created_at > this.state.lastActions[b.id].created_at) {
-    //     return -1
-    //   }
-    //   if (this.state.lastActions[a.id].created_at < this.state.lastActions[b.id].created_at) {
-    //     return 1
-    //   }
-    //   return 0
-    // })
-
-    const friends = this.state.friendList.map(friend => {
-      const date = friend.last_action_timestamp
+    const friendsData = this.state.friendDataList.map(friendData => {
+      const date = friendData.last_action_timestamp
       let statusIcon
-      if (friend.last_action.contents !== undefined) {
-        if (friend.last_action.to_user_id === friend.id) {
+      if (friendData.last_action.contents !== undefined) {
+        if (friendData.last_action.to_user_id === friendData.id) {
           statusIcon = (
             <i className='fa fa-reply user-list__item__icon' />
           )
         }
       }
-      // const date = this.state.lastActions[friend.id].created_at
-      // let statusIcon
-      // if (this.state.lastActions[friend.id].to_user_id === friend.id) {
-      //   statusIcon = (
-      //     <i className='fa fa-reply user-list__item__icon' />
-      //   )
-      // }
       // const date = Utils.getNiceDate(message.lastMessage.timestamp)
       //
       // var statusIcon
@@ -92,7 +72,7 @@ class UserList extends React.Component {
         'user-list__item': true,
         'clear': true,
         // 'user-list__item--new': isNewMessage,
-        'user-list__item--active': this.state.openChatID === friend.id,
+        'user-list__item--active': this.state.openChatID === friendData.id,
       })
       //
       // return (
@@ -120,23 +100,23 @@ class UserList extends React.Component {
 
       return (
         <li
-          onClick={ this.changeOpenChat.bind(this, friend.id)}
+          onClick={ this.changeOpenChat.bind(this, friendData.id)}
           className={ itemClasses }
-          key={ friend.id }
+          key={ friendData.id }
         >
           <div className='user-list__item__picture'>
-            <img src={ friend.picture ? '/user_image/' + friend.picture : '/default_user_image/default.png'} />
+            <img src={ friendData.picture ? '/user_image/' + friendData.picture : '/default_user_image/default.png'} />
           </div>
           <div className='user-list__item__details'>
             <h4 className='user-list__item__name'>
-              { friend.name } |
-              <span className='delete' onClick={ this.destroyFriendship.bind(this, friend.id) }> delete</span>
+              { friendData.name } |
+              <span className='delete' onClick={ this.destroyFriendship.bind(this, friendData.id) }> delete</span>
               <abbr className='user-list__item__timestamp'>
                 { date }
               </abbr>
             </h4>
             <span className='user-list__item__message'>
-              { statusIcon } { friend.last_action.contents }
+              { statusIcon } { friendData.last_action.contents }
             </span>
           </div>
         </li>
@@ -145,7 +125,7 @@ class UserList extends React.Component {
     return (
       <div className='user-list'>
         <ul className='user-list__list'>
-          { friends }
+          { friendsData }
         </ul>
       </div>
     )
