@@ -118,7 +118,7 @@ class ChatStore extends BaseStore {
     this.set('lastMessages', array)
   }
   setLastChat(id, message) {
-    let lastMessages = this.getLastMessages()
+    const lastMessages = this.getLastMessages()
     lastMessages[id] = message
     this.setLastMessages(lastMessages)
   }
