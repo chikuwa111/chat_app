@@ -13,14 +13,14 @@ class UserList extends React.Component {
   }
   get initialState() {
     MessagesAction.getFriendFromDB()
-    MessagesAction.getLastMessagesFromDB()
+    MessagesAction.getLastActionsFromDB()
     return this.getStateFromStore()
   }
   getStateFromStore() {
     return {
       openChatID: MessagesStore.getOpenChatUserID(),
       friendList: MessagesStore.getFriends(),
-      lastMessages: MessagesStore.getLastMessages(),
+      lastActions: MessagesStore.getLastActions(),
     }
   }
   componentWillMount() {
@@ -43,10 +43,10 @@ class UserList extends React.Component {
   }
   render() {
     this.state.friendList.sort((a, b) => {
-      if (this.state.lastMessages[a.id].created_at > this.state.lastMessages[b.id].created_at) {
+      if (this.state.lastActions[a.id].created_at > this.state.lastActions[b.id].created_at) {
         return -1
       }
-      if (this.state.lastMessages[a.id].created_at < this.state.lastMessages[b.id].created_at) {
+      if (this.state.lastActions[a.id].created_at < this.state.lastActions[b.id].created_at) {
         return 1
       }
       return 0
@@ -62,9 +62,9 @@ class UserList extends React.Component {
     // })
 
     const friends = this.state.friendList.map(friend => {
-      const date = this.state.lastMessages[friend.id].created_at
+      const date = this.state.lastActions[friend.id].created_at
       let statusIcon
-      if (this.state.lastMessages[friend.id].to_user_id === friend.id) {
+      if (this.state.lastActions[friend.id].to_user_id === friend.id) {
         statusIcon = (
           <i className='fa fa-reply user-list__item__icon' />
         )
@@ -136,7 +136,7 @@ class UserList extends React.Component {
               </abbr>
             </h4>
             <span className='user-list__item__message'>
-              { statusIcon } { this.state.lastMessages[friend.id].contents }
+              { statusIcon } { this.state.lastActions[friend.id].contents }
             </span>
           </div>
         </li>

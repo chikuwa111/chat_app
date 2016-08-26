@@ -16,7 +16,7 @@ export const ActionTypes = keyMirror({
   UPDATE_OPEN_CHAT_ID: null,
   SAVE_IMAGE_CHAT: null,
   LOAD_FRIENDS: null,
-  LOAD_LAST_MESSAGES: null,
+  LOAD_LAST_ACTIONS: null,
 
   // user
   LOAD_USERS: null,

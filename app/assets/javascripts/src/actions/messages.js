@@ -92,7 +92,7 @@ export default {
     })
   },
 
-  getLastMessagesFromDB() {
+  getLastActionsFromDB() {
     return new Promise((resolve, reject) => {
       request
       .get(APIEndpoints.LAST_MESSAGES)
@@ -101,7 +101,7 @@ export default {
           const json = JSON.parse(res.text)
           resolve(json)
           Dispatcher.handleServerAction({
-            type: ActionTypes.LOAD_LAST_MESSAGES,
+            type: ActionTypes.LOAD_LAST_ACTIONS,
             json: json,
           })
         } else {

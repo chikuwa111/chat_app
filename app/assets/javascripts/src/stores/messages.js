@@ -110,17 +110,17 @@ class ChatStore extends BaseStore {
   setFriends(array) {
     this.set('friends', array)
   }
-  getLastMessages() {
-    if (!this.get('lastMessages')) this.setLastMessages({})
-    return this.get('lastMessages')
+  getLastActions() {
+    if (!this.get('lastActions')) this.setLastActions({})
+    return this.get('lastActions')
   }
-  setLastMessages(array) {
-    this.set('lastMessages', array)
+  setLastActions(array) {
+    this.set('lastActions', array)
   }
-  setLastChat(id, message) {
-    const lastMessages = this.getLastMessages()
-    lastMessages[id] = message
-    this.setLastMessages(lastMessages)
+  updateLastAction(id, message) {
+    const lastActions = this.getLastActions()
+    lastActions[id] = message
+    this.setLastActions(lastActions)
   }
 }
 const MessagesStore = new ChatStore()
@@ -156,7 +156,7 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
     case ActionTypes.SAVE_MESSAGE:
       if (action.json.contents !== '') {
         MessagesStore.getAllChats().push(action.json)
-        MessagesStore.setLastChat(action.json.to_user_id, action.json)
+        MessagesStore.updateLastAction(action.json.to_user_id, action.json)
       }
       MessagesStore.emitChange()
       break
@@ -168,12 +168,12 @@ MessagesStore.dispatchToken = Dispatcher.register(payload => {
 
     case ActionTypes.SAVE_IMAGE_CHAT:
       MessagesStore.getAllChats().push(action.json)
-      MessagesStore.setLastChat(action.json.to_user_id, action.json)
+      MessagesStore.updateLastAction(action.json.to_user_id, action.json)
       MessagesStore.emitChange()
       break
 
-    case ActionTypes.LOAD_LAST_MESSAGES:
-      MessagesStore.setLastMessages(action.json)
+    case ActionTypes.LOAD_LAST_ACTIONS:
+      MessagesStore.setLastActions(action.json)
       MessagesStore.emitChange()
       break
 
