@@ -29,13 +29,13 @@ export default {
     })
   },
 
-  sendMessageToDB(message, to_user_id) {
+  sendMessageToDB(message, toUserID) {
     return new Promise((resolve, reject) => {
       request
       .post(APIEndpoints.MESSAGES)
       .set('X-CSRF-Token', CSRFToken())
       .send({contents: message,
-            to_user_id: to_user_id})
+            to_user_id: toUserID})
       .end((error, res) => {
         if (!error && res.ok) {
           const json = JSON.parse(res.text)
@@ -69,13 +69,13 @@ export default {
     })
   },
 
-  sendImageToDB(file, to_user_id) {
+  sendImageToDB(file, toUserID) {
     return new Promise((resolve, reject) => {
       request
       .post(APIEndpoints.MESSAGES)
       .set('X-CSRF-Token', CSRFToken())
       .field('contents', 'sent image')
-      .field('to_user_id', to_user_id)
+      .field('to_user_id', toUserID)
       .attach('image', file)
       .end((error, res) => {
         if (!error && res.ok) {
