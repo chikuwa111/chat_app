@@ -32,11 +32,12 @@ class UserList extends React.Component {
   changeOpenChat(id) {
     MessagesAction.changeOpenChat(id)
   }
-  destroyFriendship(user_id) {
+  destroyFriendship(user_id, event) {
     if (confirm('Are you sure?')) {
       const actionPath = '/friendships/' + user_id
       Utils.delete(actionPath)
     }
+    event.stopPropagation()
   }
   render() {
     const friendsData = this.state.friendDataList.map(friendData => {
