@@ -124,7 +124,7 @@ class ChatStore extends BaseStore {
     const openChatFriendData = friendsData.slice(index, index + 1)[0]
     openChatFriendData.last_action = json.message
     openChatFriendData.last_action_timestamp = json.timestamp
-    friendsData.splice(index, index)
+    friendsData.splice(index, 1)
     friendsData.unshift(openChatFriendData)
     this.setFriendsData(friendsData)
   }
