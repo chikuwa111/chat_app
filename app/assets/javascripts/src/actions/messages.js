@@ -4,9 +4,24 @@ import {APIEndpoints, ActionTypes, CSRFToken} from '../constants/app'
 
 export default {
   changeOpenChat(id) {
-    Dispatcher.handleViewAction({
-      type: ActionTypes.UPDATE_OPEN_CHAT_ID,
-      id: id,
+    const datetime = new Date()
+    return new Promise((resolve, reject) => {
+      request
+      .put('/access/update')
+      .set('X-CSRF-Token', CSRFToken())
+      .send({datetime: datetime,
+            to_user_id: id})
+      .end((error, res) => {
+        if (!error && res.ok) {
+          Dispatcher.handleViewAction({
+            type: ActionTypes.UPDATE_OPEN_CHAT_ID,
+            id: id,
+            datetime: datetime,
+          })
+        } else {
+          console.error(error)
+        }
+      })
     })
   },
 

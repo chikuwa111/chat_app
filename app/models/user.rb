@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
   has_many :sent_messages, class_name: 'Message',
             foreign_key: 'from_user_id', dependent: :destroy
 
+  has_many :accesses_of_from_user, class_name: 'Access',
+            foreign_key: 'from_user_id', dependent: :destroy
+  has_many :accesses_of_to_user, class_name: 'Access',
+            foreign_key: 'to_user_id', dependent: :destroy
+
   validates :name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -39,7 +44,7 @@ class User < ActiveRecord::Base
 
   def friend?(user)
     friendship = self.friendships_of_from_user.find_by(to_user_id: user.id)
-    inverse_friendship = self.friendships_of_to_user.find_by(to_user_id: user.id)
+    inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user.id)
     friendship || inverse_friendship
   end
 
@@ -57,6 +62,15 @@ class User < ActiveRecord::Base
     else
       inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user_id)
       return inverse_friendship
+    end
+  end
+
+  def access_with(user_id)
+    if access = self.accesses_of_from_user.find_by(to_user_id: user_id)
+      return access
+    else
+      inverse_access = self.accesses_of_to_user.find_by(from_user_id: user_id)
+      return inverse_access
     end
   end
 
@@ -82,6 +96,15 @@ class User < ActiveRecord::Base
 
   def last_action_timestamp_with(user)
     self.last_action_with(user).created_at.strftime('%Y/%m/%d %H:%M')
+  end
+
+  def last_access_of(user)
+    access = self.access_with(user)
+    if access.from_user_id == user.id
+      return access.from_user_access
+    else
+      return access.to_user_access
+    end
   end
 
 end

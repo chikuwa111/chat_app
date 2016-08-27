@@ -42,12 +42,18 @@ class UserList extends React.Component {
   render() {
     const friendsData = this.state.friendDataList.map(friendData => {
       const date = friendData.last_action_timestamp
+      let isNewMessage = false
       let statusIcon
       if (friendData.last_action.contents !== undefined) {
         if (friendData.last_action.to_user_id === friendData.id) {
           statusIcon = (
             <i className='fa fa-reply user-list__item__icon' />
           )
+        } else if (!friendData.last_access || friendData.last_access < friendData.last_action.created_at) {
+          statusIcon = (
+            <i className='fa fa-circle user-list__item__icon' />
+          )
+          isNewMessage = true
         }
       }
       // const date = Utils.getNiceDate(message.lastMessage.timestamp)
@@ -72,32 +78,9 @@ class UserList extends React.Component {
       const itemClasses = classNames({
         'user-list__item': true,
         'clear': true,
-        // 'user-list__item--new': isNewMessage,
+        'user-list__item--new': isNewMessage,
         'user-list__item--active': this.state.openChatID === friendData.id,
       })
-      //
-      // return (
-      //   <li
-      //     onClick={ this.changeOpenChat.bind(this, message.user.id) }
-      //     className={ itemClasses }
-      //     key={ message.user.id }
-      //   >
-      //     <div className='user-list__item__picture'>
-      //       <img src={ message.user.profilePicture } />
-      //     </div>
-      //     <div className='user-list__item__details'>
-      //       <h4 className='user-list__item__name'>
-      //         { message.user.name }
-      //         <abbr className='user-list__item__timestamp'>
-      //           { date }
-      //         </abbr>
-      //       </h4>
-      //       <span className='user-list__item__message'>
-      //         { statusIcon } { this.state.lastActions[friend.id].contents }
-      //       </span>
-      //     </div>
-      //   </li>
-      // )
 
       return (
         <li

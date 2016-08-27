@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'users#home'
   get 'users/find' => 'users#find'
   get 'messages' => 'messages#index'
+  put 'access/update' => 'friendships#update'
   devise_for :users, :controllers => {
     :registrations => 'users/registrations'
   }
