@@ -117,16 +117,16 @@ class ChatStore extends BaseStore {
   //   this.setLastActions(lastActions)
   // }
   updateFriendsData(json) {
-    const lastActions = this.getFriendsData()
-    const index = _.findIndex(lastActions, l => {
-      return l.id === json.message.to_user_id
+    const friendsData = this.getFriendsData()
+    const index = _.findIndex(friendsData, friendData => {
+      return friendData.id === json.message.to_user_id
     })
-    const lastAction = lastActions.slice(index, index + 1)[0]
-    lastAction.last_action = json.message
-    lastAction.last_action_timestamp = json.timestamp
-    lastActions.splice(index, index)
-    lastActions.unshift(lastAction)
-    this.setFriendsData(lastActions)
+    const openChatFriendData = friendsData.slice(index, index + 1)[0]
+    openChatFriendData.last_action = json.message
+    openChatFriendData.last_action_timestamp = json.timestamp
+    friendsData.splice(index, index)
+    friendsData.unshift(openChatFriendData)
+    this.setFriendsData(friendsData)
   }
 }
 const MessagesStore = new ChatStore()

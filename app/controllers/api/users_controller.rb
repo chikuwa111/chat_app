@@ -7,13 +7,13 @@ module Api
     end
 
     def friends_data
-      @json = current_user.friends.map { |f|
-        user_data = f.as_json()
-        user_data['last_action'] = f.last_action_with(current_user)
-        user_data['last_action_timestamp'] = f.last_action_timestamp_with(current_user)
+      @json = current_user.friends.map { |friend|
+        user_data = friend.as_json()
+        user_data['last_action'] = friend.last_action_with(current_user)
+        user_data['last_action_timestamp'] = friend.last_action_timestamp_with(current_user)
         user_data
       }
-      render json: @json.sort_by{|d| d['last_action_timestamp']}.reverse
+      render json: @json.sort_by{|friend_data| friend_data['last_action_timestamp']}.reverse
     end
 
   end
