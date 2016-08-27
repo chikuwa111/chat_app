@@ -13,7 +13,7 @@ module Api
         user_data['last_action_timestamp'] = friend.last_action_timestamp_with(current_user)
         user_data
       }
-      render json: @json.sort_by{|friend_data| friend_data['last_action_timestamp']}.reverse
+      render json: @json.sort_by{|friend_data| friend_data['last_action']['created_at']}.reverse
     end
 
   end
