@@ -74,7 +74,6 @@ export default {
       request
       .post(APIEndpoints.MESSAGES)
       .set('X-CSRF-Token', CSRFToken())
-      .field('contents', 'sent image')
       .field('to_user_id', toUserID)
       .attach('image', file)
       .end((error, res) => {

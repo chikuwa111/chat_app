@@ -16,6 +16,7 @@ module Api
           |f| f.write(file.read)
         }
         @message.image = file_name
+        @message.contents = "sent image"
       end
       @message.save
       render json: {message: @message, timestamp: @message.timestamp}
