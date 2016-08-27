@@ -6,6 +6,7 @@
   width: 300px;
   background: rgba( 0, 0, 0, 0.03 );
   border-right: 1px solid rgba( 0, 0, 0, 0.1 );
+  overflow-y: auto;
 
   &__item {
     padding: 14px 10px 14px 15px;
