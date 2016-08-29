@@ -22,6 +22,5 @@ npm-debug.log
 .DS_Store
 public/assets/javascripts/boot.js
 public/message_image/*
-!.keep
 public/user_image/*
 !.keep
