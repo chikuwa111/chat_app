@@ -44,6 +44,9 @@
     &--image {
       .message-box__item__contents {
         padding: 0;
+        img {
+          max-width: 400px;
+        }
       }
     }
   }
