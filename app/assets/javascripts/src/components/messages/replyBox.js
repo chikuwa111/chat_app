@@ -34,6 +34,7 @@ class ReplyBox extends React.Component {
     if (e.target.files.length === 0) return
     const file = e.target.files[0]
     MessagesAction.sendImageToDB(file, this.props.openChatID)
+    this.refs.image.value = ''
   }
   render() {
     return (
@@ -51,6 +52,7 @@ class ReplyBox extends React.Component {
         </span>
         <input
           type='file'
+          ref='image'
           accept='.jpg,.gif,.png,image/gif,image/jpeg,image/png'
           disabled={ this.props.openChatID === 0 }
           onChange={ this.updateImage.bind(this) }
