@@ -20,11 +20,8 @@ class ChatStore extends BaseStore {
     this.set('openChatID', id)
   }
   getChatByUserID(id) {
-    const messages = []
-    MessagesStore.getAllChats().map(message => {
-      if (message.from_user_id === id || message.to_user_id === id) {
-        messages.push(message)
-      }
+    const messages = MessagesStore.getAllChats().filter(message => {
+      return (message.from_user_id === id || message.to_user_id === id)
     }, this)
     return messages
   }
