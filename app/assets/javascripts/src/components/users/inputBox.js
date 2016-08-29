@@ -3,20 +3,9 @@ import UsersAction from '../../actions/users'
 
 class InputBox extends React.Component {
 
-  static get defaultProps() {
-    return {
-    }
-  }
-
-  static get propTypes() {
-    return {
-    }
-  }
-
   constructor(props) {
     super(props)
     this.state = this.initialState
-    this.updateValue = this.updateValue.bind(this)
   }
   get initialState() {
     return {
@@ -35,7 +24,7 @@ class InputBox extends React.Component {
         <input
           type='text'
           value={ this.state.value }
-          onChange={ this.updateValue }
+          onChange={ this.updateValue.bind(this) }
           className='input-box__input'
           autoFocus='true'
           placeholder='Type name to find..'

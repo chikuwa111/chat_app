@@ -1,38 +1,19 @@
 import React from 'react'
-import UsersStore from '../../stores/users'
-import UsersAction from '../../actions/users'
 import Utils from '../../lib/utils'
 
 class UsersBox extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = this.initialState
-  }
-  get initialState() {
-    return this.getStateFromStore()
-  }
-  getStateFromStore() {
-    return {users: UsersStore.getShownUsers()}
-  }
-  componentDidMount() {
-    UsersAction.getUserFromDB()
-  }
-  componentWillMount() {
-    UsersStore.onChange(this.onStoreChange.bind(this))
-  }
-  componentWillUnmount() {
-    UsersStore.offChange(this.onStoreChange.bind(this))
-  }
-  onStoreChange() {
-    this.setState(this.getStateFromStore())
+  static get propTypes() {
+    return {
+      users: React.PropTypes.array.isRequired,
+    }
   }
   makeFriendsWith(id) {
     const params = {'to_user_id': id}
     Utils.post('/friendships', params)
   }
   render() {
-    const users = this.state.users.map(user => {
+    const users = this.props.users.map(user => {
       return (
         <li key={ user.id } className='user-box__item'>
           <div className='user-box__item__contents'>
