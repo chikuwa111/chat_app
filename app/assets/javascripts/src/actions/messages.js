@@ -3,8 +3,7 @@ import request from 'superagent'
 import {APIEndpoints, ActionTypes, CSRFToken} from '../constants/app'
 
 export default {
-  changeOpenChat(id) {
-    const datetime = new Date()
+  changeOpenChat(id, datetime) {
     return new Promise((resolve, reject) => {
       request
       .put('/access/update')

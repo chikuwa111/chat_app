@@ -11,8 +11,17 @@ class UserList extends React.Component {
       friendDataList: React.PropTypes.array.isRequired,
     }
   }
+  constructor(props) {
+    super(props)
+    this.state = this.initialState
+  }
+  get initialState() {
+    return {
+      datetime: new Date(),
+    }
+  }
   changeOpenChat(id) {
-    MessagesAction.changeOpenChat(id)
+    MessagesAction.changeOpenChat(id, this.state.datetime)
   }
   destroyFriendship(user_id, event) {
     if (confirm('Are you sure?')) {
