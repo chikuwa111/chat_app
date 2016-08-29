@@ -10,6 +10,10 @@ class MessagesBox extends React.Component {
       messages: React.PropTypes.array.isRequired,
     }
   }
+  componentDidUpdate() {
+    const node = this.refs.node
+    node.scrollTop = node.scrollHeight
+  }
   render() {
     const messages = this.props.messages.map(message => {
       const messageClasses = classNames({
@@ -41,7 +45,7 @@ class MessagesBox extends React.Component {
 
     return (
         <div className='message-box'>
-          <ul className='message-box__list'>
+          <ul className='message-box__list' ref='node'>
             { messages }
           </ul>
           <ReplyBox openChatID={ this.props.openChatID }/>
