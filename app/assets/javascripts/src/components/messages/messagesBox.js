@@ -23,24 +23,13 @@ class MessagesBox extends React.Component {
         'message-box__item--image': message.image,
       })
 
-      if (!message.image) {
-        return (
-          <li key={ message.id } className={ messageClasses }>
-            <div className='message-box__item__contents'>
-              { message.contents }
-            </div>
-          </li>
-        )
-      } else {
-        const filePath = 'message_image/' + message.image
-        return (
-          <li key={ message.id } className={ messageClasses }>
-            <div className='message-box__item__contents'>
-              <img src={ filePath } />
-            </div>
-          </li>
-        )
-      }
+      return (
+        <li key={ message.id } className={ messageClasses }>
+          <div className='message-box__item__contents'>
+            { message.image ? <img src={`message_image/${message.image}`} /> : message.contents }
+          </div>
+        </li>
+      )
     })
 
     return (
