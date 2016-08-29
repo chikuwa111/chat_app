@@ -1,33 +1,15 @@
 import React from 'react'
 import classNames from 'classnames'
-import Utils from '../../lib/utils'
-import MessagesStore from '../../stores/messages'
 import MessagesAction from '../../actions/messages'
+import Utils from '../../lib/utils'
 
 class UserList extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = this.initialState
-  }
-  get initialState() {
-    MessagesAction.getFriendsDataFromDB()
-    return this.getStateFromStore()
-  }
-  getStateFromStore() {
+  static get propTypes() {
     return {
-      openChatID: MessagesStore.getOpenChatUserID(),
-      friendDataList: MessagesStore.getFriendsData(),
+      openChatID: React.PropTypes.number.isRequired,
+      friendDataList: React.PropTypes.array.isRequired,
     }
-  }
-  componentWillMount() {
-    MessagesStore.onChange(this.onStoreChange.bind(this))
-  }
-  componentWillUnmount() {
-    MessagesStore.offChange(this.onStoreChange.bind(this))
-  }
-  onStoreChange() {
-    this.setState(this.getStateFromStore())
   }
   changeOpenChat(id) {
     MessagesAction.changeOpenChat(id)
@@ -40,7 +22,7 @@ class UserList extends React.Component {
     event.stopPropagation()
   }
   render() {
-    const friendsData = this.state.friendDataList.map(friendData => {
+    const friendsData = this.props.friendDataList.map(friendData => {
       const date = friendData.last_action_timestamp
       let isNewMessage = false
       let statusIcon
@@ -56,30 +38,12 @@ class UserList extends React.Component {
           isNewMessage = true
         }
       }
-      // const date = Utils.getNiceDate(message.lastMessage.timestamp)
-      //
-      // var statusIcon
-      // if (message.lastMessage.from !== message.user.id) {
-      //   statusIcon = (
-      //     <i className='fa fa-reply user-list__item__icon' />
-      //   )
-      // }
-      // if (message.lastAccess.currentUser < message.lastMessage.timestamp) {
-      //   statusIcon = (
-      //     <i className='fa fa-circle user-list__item__icon' />
-      //   )
-      // }
-      //
-      // var isNewMessage = false
-      // if (message.lastAccess.currentUser < message.lastMessage.timestamp) {
-      //   isNewMessage = message.lastMessage.from !== UsersStore.user.id
-      // }
 
       const itemClasses = classNames({
         'user-list__item': true,
         'clear': true,
         'user-list__item--new': isNewMessage,
-        'user-list__item--active': this.state.openChatID === friendData.id,
+        'user-list__item--active': this.props.openChatID === friendData.id,
       })
 
       return (

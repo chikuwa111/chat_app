@@ -1,26 +1,16 @@
 import React from 'react'
-// import MessagesStore from '../../stores/messages'
 import MessagesAction from '../../actions/messages'
 
 class ReplyBox extends React.Component {
-
-  static get defaultProps() {
-    return {
-    }
-  }
 
   static get propTypes() {
     return {
       openChatID: React.PropTypes.number.isRequired,
     }
   }
-
   constructor(props) {
     super(props)
     this.state = this.initialState
-    this.handleKeyDown = this.handleKeyDown.bind(this)
-    this.updateValue = this.updateValue.bind(this)
-    this.updateImage = this.updateImage.bind(this)
   }
   get initialState() {
     return {
@@ -29,7 +19,6 @@ class ReplyBox extends React.Component {
   }
   handleKeyDown(e) {
     if (e.keyCode === 13) {
-      // MessagesAction.sendMessage(MessagesStore.getOpenChatUserID(), this.state.value)
       MessagesAction.sendMessageToDB(this.state.value, this.props.openChatID)
       this.setState({
         value: '',
@@ -51,8 +40,8 @@ class ReplyBox extends React.Component {
       <div className='reply-box'>
         <input
           value={ this.state.value }
-          onKeyDown={ this.handleKeyDown }
-          onChange={ this.updateValue }
+          onKeyDown={ this.handleKeyDown.bind(this) }
+          onChange={ this.updateValue.bind(this) }
           className='reply-box__input'
           placeholder='Type message to reply..'
           disabled={ this.props.openChatID === 0 }
@@ -64,7 +53,7 @@ class ReplyBox extends React.Component {
           type='file'
           accept='.jpg,.gif,.png,image/gif,image/jpeg,image/png'
           disabled={ this.props.openChatID === 0 }
-          onChange={ this.updateImage }
+          onChange={ this.updateImage.bind(this) }
         />
       </div>
     )
