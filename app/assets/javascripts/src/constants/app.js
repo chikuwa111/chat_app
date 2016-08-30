@@ -7,6 +7,7 @@ export const APIEndpoints = {
   USERS: APIRoot + '/users',
   FRIENDS: APIRoot + '/friends',
   LAST_MESSAGES: APIRoot + '/messages/last',
+  UPDATE_ACCESS: APIRoot + '/access/update',
 }
 
 export const ActionTypes = keyMirror({

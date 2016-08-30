@@ -6,7 +6,7 @@ export default {
   changeOpenChat(id, datetime) {
     return new Promise((resolve, reject) => {
       request
-      .put('/access/update')
+      .put(APIEndpoints.UPDATE_ACCESS)
       .set('X-CSRF-Token', CSRFToken())
       .send({datetime: datetime,
             to_user_id: id})
