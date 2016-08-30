@@ -1,6 +1,5 @@
 import React from 'react'
 import MessagesStore from '../../stores/messages'
-import MessagesAction from '../../actions/messages'
 import UserList from './userList'
 import MessagesBox from './messagesBox'
 
@@ -11,8 +10,6 @@ class MessageApp extends React.Component {
     this.state = this.initialState
   }
   get initialState() {
-    MessagesAction.getMessageFromDB()
-    MessagesAction.getFriendsDataFromDB()
     return this.getStateFromStore()
   }
   getStateFromStore() {

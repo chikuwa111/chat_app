@@ -1,6 +1,5 @@
 import React from 'react'
 import UsersStore from '../../stores/users'
-import UsersAction from '../../actions/users'
 import UsersBox from './usersBox'
 import InputBox from './inputBox'
 
@@ -11,7 +10,6 @@ class UserApp extends React.Component {
     this.state = this.initialState
   }
   get initialState() {
-    UsersAction.getUserFromDB()
     return this.getStateFromStore()
   }
   getStateFromStore() {
