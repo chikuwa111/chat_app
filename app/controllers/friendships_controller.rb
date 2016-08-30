@@ -7,13 +7,15 @@ class FriendshipsController < ApplicationController
       return
     end
     current_user.friendships_of_from_user.create(to_user_id: user.id)
+    current_user.accesses_of_from_user.create(to_user_id: user.id)
     flash[:notice] = "Successfully make friends with #{user.name}!"
     redirect_to messages_url
   end
 
   def destroy
     current_user.destroy_friendship_with(params[:id])
-    flash[:notice] = "Successfully resolved friendship."
+    flash[:notice] = "Successfully destroyed friendship."
     redirect_to root_url
   end
+
 end

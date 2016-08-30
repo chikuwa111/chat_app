@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
   has_many :sent_messages, class_name: 'Message',
             foreign_key: 'from_user_id', dependent: :destroy
 
+  has_many :accesses_of_from_user, class_name: 'Access',
+            foreign_key: 'from_user_id', dependent: :destroy
+  has_many :accesses_of_to_user, class_name: 'Access',
+            foreign_key: 'to_user_id', dependent: :destroy
+
   validates :name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -39,7 +44,7 @@ class User < ActiveRecord::Base
 
   def friend?(user)
     friendship = self.friendships_of_from_user.find_by(to_user_id: user.id)
-    inverse_friendship = self.friendships_of_to_user.find_by(to_user_id: user.id)
+    inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user.id)
     friendship || inverse_friendship
   end
 
@@ -50,4 +55,56 @@ class User < ActiveRecord::Base
       inverse_friendship.destroy
     end
   end
+
+  def friendship_with(user_id)
+    if friendship = self.friendships_of_from_user.find_by(to_user_id: user_id)
+      return friendship
+    else
+      inverse_friendship = self.friendships_of_to_user.find_by(from_user_id: user_id)
+      return inverse_friendship
+    end
+  end
+
+  def access_with(user_id)
+    if access = self.accesses_of_from_user.find_by(to_user_id: user_id)
+      return access
+    else
+      inverse_access = self.accesses_of_to_user.find_by(from_user_id: user_id)
+      return inverse_access
+    end
+  end
+
+  def last_action_with(user)
+    if (last_message_to_self = Message.where("from_user_id = :user1 and to_user_id = :user2",
+                      user1: user.id, user2: self.id).last)
+      last_action = last_message_to_self
+    end
+
+    if (last_message_from_self = Message.where("from_user_id = :user1 and to_user_id = :user2",
+                      user1: self.id, user2: user.id).last)
+      if !last_action || last_action.id < last_message_from_self.id
+        last_action = last_message_from_self
+      end
+    end
+
+    if !last_action
+      last_action = user.friendship_with(self.id)
+    end
+
+    return last_action
+  end
+
+  def last_action_timestamp_with(user)
+    self.last_action_with(user).created_at.strftime('%Y/%m/%d %H:%M')
+  end
+
+  def last_access_of(user)
+    access = self.access_with(user)
+    if access.from_user_id == user.id
+      return access.from_user_access
+    else
+      return access.to_user_access
+    end
+  end
+
 end

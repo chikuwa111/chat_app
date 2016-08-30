@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_user_id: 1
+  to_user_id: 1
+  from_user_access: 2016-08-27 13:17:09
+  to_user_access: 2016-08-27 13:17:09
+
+two:
+  from_user_id: 1
+  to_user_id: 1
+  from_user_access: 2016-08-27 13:17:09
+  to_user_access: 2016-08-27 13:17:09
