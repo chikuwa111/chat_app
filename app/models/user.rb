@@ -75,15 +75,15 @@ class User < ActiveRecord::Base
   end
 
   def last_action_with(user)
-    if (m = Message.where("from_user_id = :user1 and to_user_id = :user2",
+    if (last_message_to_self = Message.where("from_user_id = :user1 and to_user_id = :user2",
                       user1: user.id, user2: self.id).last)
-      last_action = m
+      last_action = last_message_to_self
     end
 
-    if (m = Message.where("from_user_id = :user1 and to_user_id = :user2",
+    if (last_message_from_self = Message.where("from_user_id = :user1 and to_user_id = :user2",
                       user1: self.id, user2: user.id).last)
-      if !last_action || last_action.id < m.id
-        last_action = m
+      if !last_action || last_action.id < last_message_from_self.id
+        last_action = last_message_from_self
       end
     end
 
