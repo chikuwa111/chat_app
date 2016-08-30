@@ -13,9 +13,8 @@ class UserApp extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
-    const users = UsersStore.getShownUsers()
     return {
-      users,
+      users: UsersStore.getShownUsers(),
     }
   }
   componentWillMount() {

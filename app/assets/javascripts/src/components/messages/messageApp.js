@@ -13,13 +13,10 @@ class MessageApp extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
-    const openChatID = MessagesStore.getOpenChatUserID()
-    const messages = MessagesStore.getChatByUserID(openChatID)
-    const friendDataList = MessagesStore.getFriendsData()
     return {
-      openChatID,
-      messages,
-      friendDataList,
+      openChatID: MessagesStore.getOpenChatUserID(),
+      messages: MessagesStore.getChatByUserID(MessagesStore.getOpenChatUserID()),
+      friendDataList: MessagesStore.getFriendsData(),
     }
   }
   componentWillMount() {
