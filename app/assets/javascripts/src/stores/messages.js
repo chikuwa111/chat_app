@@ -1,7 +1,7 @@
 import Dispatcher from '../dispatcher'
 import BaseStore from '../base/store'
 import {ActionTypes} from '../constants/app'
-import _ from 'lodash'
+import Utils from '../lib/utils'
 
 class ChatStore extends BaseStore {
   addChangeListener(callback) {
@@ -40,25 +40,10 @@ class ChatStore extends BaseStore {
     this.set('friends_data', array)
   }
   updateFriendsData(json) {
-    const friendsData = this.getFriendsData()
-    const index = _.findIndex(friendsData, friendData => {
-      return friendData.id === json.message.to_user_id
-    })
-    const openChatFriendData = friendsData.slice(index, index + 1)[0]
-    openChatFriendData.last_action = json.message
-    openChatFriendData.last_action_timestamp = json.timestamp
-    friendsData.splice(index, 1)
-    friendsData.unshift(openChatFriendData)
-    this.setFriendsData(friendsData)
+    Utils.updateFriendsData(json)
   }
   updateLastAccess(id, datetime) {
-    const friendsData = this.getFriendsData()
-    const index = _.findIndex(friendsData, friendData => {
-      return friendData.id === id
-    })
-    const openChatFriendData = friendsData[index]
-    openChatFriendData.last_access = datetime
-    this.setFriendsData(friendsData)
+    Utils.updateLastAccess(id, datetime)
   }
 }
 const MessagesStore = new ChatStore()
