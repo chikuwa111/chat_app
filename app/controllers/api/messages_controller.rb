@@ -25,7 +25,7 @@ module Api
     private
 
       def message_params
-        params.permit(:contents, :to_user_id, :image)
+        params.permit(:contents, :to_user_id)
       end
 
   end
