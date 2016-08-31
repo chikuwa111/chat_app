@@ -84,6 +84,7 @@ class UserList extends React.Component {
         <ul className='user-list__list'>
           { friendsData }
         </ul>
+        <div className='user-list__hint'>リストを２回クリックすると<br/>メッセージのスクロール位置が下に移動します</div>
       </div>
     )
   }
