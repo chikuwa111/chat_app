@@ -32,15 +32,15 @@ class UserList extends React.Component {
   }
   render() {
     const friendsData = this.props.friendDataList.map(friendData => {
-      const date = friendData.last_action_timestamp
+      const {last_action, last_action_timestamp, last_access} = friendData
       let isNewMessage = false
       let statusIcon
-      if (friendData.last_action.contents !== undefined) {
-        if (friendData.last_action.to_user_id === friendData.id) {
+      if (last_action.contents !== undefined) {
+        if (last_action.to_user_id === friendData.id) {
           statusIcon = (
             <i className='fa fa-reply user-list__item__icon' />
           )
-        } else if (!friendData.last_access || friendData.last_access < friendData.last_action.created_at) {
+        } else if (!last_access || last_access < last_action.created_at) {
           statusIcon = (
             <i className='fa fa-circle user-list__item__icon' />
           )
@@ -69,11 +69,11 @@ class UserList extends React.Component {
               { friendData.name } |
               <span className='delete' onClick={ this.destroyFriendship.bind(this, friendData.id) }> delete</span>
               <abbr className='user-list__item__timestamp'>
-                { date }
+                { last_action_timestamp }
               </abbr>
             </h4>
             <span className='user-list__item__message'>
-              { statusIcon } { friendData.last_action.contents }
+              { statusIcon } { last_action.contents }
             </span>
           </div>
         </li>
