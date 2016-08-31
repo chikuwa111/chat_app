@@ -13,9 +13,11 @@ class MessageApp extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
+    // 2回使ってるので変数に入れたほうがきれい
+    const openChatID = MessagesStore.getOpenChatUserID()
     return {
-      openChatID: MessagesStore.getOpenChatUserID(),
-      messages: MessagesStore.getChatByUserID(MessagesStore.getOpenChatUserID()),
+      openChatID,
+      messages: MessagesStore.getChatByUserID(openChatID),
       friendDataList: MessagesStore.getFriendsData(),
     }
   }
@@ -29,10 +31,12 @@ class MessageApp extends React.Component {
     this.setState(this.getStateFromStore())
   }
   render() {
+    // こんなふうに変数の中身を取り出せる
+    const {openChatID, messages, friendDataList} = this.state
     return (
         <div className='app'>
-          <UserList openChatID={ this.state.openChatID } friendDataList={ this.state.friendDataList }/>
-          <MessagesBox openChatID={ this.state.openChatID } messages={ this.state.messages }/>
+          <UserList openChatID={ openChatID } friendDataList={ friendDataList }/>
+          <MessagesBox openChatID={ openChatID } messages={ messages }/>
         </div>
       )
   }
