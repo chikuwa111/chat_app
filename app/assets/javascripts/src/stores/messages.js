@@ -53,7 +53,9 @@ class ChatStore extends BaseStore {
     const index = _.findIndex(friendsData, friendData => {
       return friendData.id === json.message.to_user_id
     })
-    const openChatFriendData = friendsData.slice(index, index + 1)[0]
+    // const openChatFriendData = friendsData.slice(index, index + 1)[0]
+    // こっちじゃだめ？
+    const openChatFriendData = friendsData[index]
     openChatFriendData.last_action = json.message
     openChatFriendData.last_action_timestamp = json.timestamp
     friendsData.splice(index, 1)

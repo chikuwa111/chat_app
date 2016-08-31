@@ -9,6 +9,7 @@ module Api
     def create
       @message = Message.new(message_params)
       @message.from_user_id = current_user.id
+      # この辺はMessageモデルに移すと綺麗かな
       file = params[:image]
       if !file.nil?
         file_name =  Time.now().to_i.to_s + file.original_filename
