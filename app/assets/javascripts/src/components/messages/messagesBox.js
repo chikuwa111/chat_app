@@ -11,8 +11,10 @@ class MessagesBox extends React.Component {
     }
   }
   componentDidUpdate() {
-    const node = this.refs.node
-    node.scrollTop = node.scrollHeight
+    setTimeout(() => {
+      const node = this.refs.node
+      node.scrollTop = node.scrollHeight
+    }, 0)
   }
   render() {
     const messages = this.props.messages.map(message => {
