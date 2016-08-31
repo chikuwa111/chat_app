@@ -13,9 +13,10 @@ class MessageApp extends React.Component {
     return this.getStateFromStore()
   }
   getStateFromStore() {
+    const openChatID = MessagesStore.getOpenChatUserID()
     return {
-      openChatID: MessagesStore.getOpenChatUserID(),
-      messages: MessagesStore.getChatByUserID(MessagesStore.getOpenChatUserID()),
+      openChatID,
+      messages: MessagesStore.getChatByUserID(openChatID),
       friendDataList: MessagesStore.getFriendsData(),
     }
   }
@@ -29,12 +30,13 @@ class MessageApp extends React.Component {
     this.setState(this.getStateFromStore())
   }
   render() {
+    const {openChatID, messages, friendDataList} = this.state
     return (
-        <div className='app'>
-          <UserList openChatID={ this.state.openChatID } friendDataList={ this.state.friendDataList }/>
-          <MessagesBox openChatID={ this.state.openChatID } messages={ this.state.messages }/>
-        </div>
-      )
+      <div className='app'>
+        <UserList openChatID={ openChatID } friendDataList={ friendDataList }/>
+        <MessagesBox openChatID={ openChatID } messages={ messages }/>
+      </div>
+    )
   }
 }
 
