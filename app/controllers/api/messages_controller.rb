@@ -9,7 +9,7 @@ module Api
     def create
       @message = Message.new(message_params)
       @message.from_user_id = current_user.id
-      @message.applyImage(params[:image])
+      @message.set_image(params[:image])
       @message.save
       render json: {message: @message, timestamp: @message.timestamp}
     end
